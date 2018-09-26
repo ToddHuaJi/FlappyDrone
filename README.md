@@ -1,4 +1,4 @@
-# SDP2019
+# SDP2019Team23 from UMass Amherst ECE 
 SDP Description place holder
 
 ## Team members:
