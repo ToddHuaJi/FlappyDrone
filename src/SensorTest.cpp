@@ -1,9 +1,10 @@
 #include <iostream>
 #include <pigpio.h>
+#include <fstream>
 
 using namespace std;
 /*
-------------------------------------------------------
+-----------------------------------------------------
 -    This is a standalone working version cpp code   -
 -    for TFmini Lidar. Please refer to 11/1 work log -
 -    for build                                       -
@@ -12,7 +13,7 @@ using namespace std;
 */
 
 
-int main(){
+int main(int argc, char * argv[]){
     cout << "Hello, World!";
 
     if (gpioInitialise() < 0)
@@ -22,6 +23,19 @@ int main(){
 }
 else
 {
+    /*
+    * Reading 2 different safe distance which is specified by user
+    * safeDistance[0] is warning distance 
+    * safeDistance[1] is dangerous distance
+    */
+     
+    std::fstream myfile("data.txt");
+    int safeDistance[2];
+    for(int i = 0; i < 2; i++)
+    {
+        myfile >> safeDistance[i];
+       std::cout << safeDistance[i] << "\n";
+    }
 
     /*
     * sepcifing Serial port path in string and convert
@@ -42,9 +56,10 @@ else
     */
     unsigned ser = serOpen(cstr,115200, 0);
     char data[9];
-
+    int count = 0;
+    int distance = 0;
     while(1){
-
+	
         /*
         * Each byte have different meaning
         * See TFmini Datasheet for details
@@ -52,14 +67,27 @@ else
         */
 
        if(serDataAvailable(ser) == 9 ){
-           serRead(ser, data, 9);
-           std::cout <<(int)data[0] << " " <<(int)data[1] << " Data is, low and high: ";
-           std::cout <<(int)data[2] << " " <<(int)data[3] << " +++ \n";
-           data[0]=0x11;
+           count ++;
+	   serRead(ser, data, 9);
+	   if(count > 100){ //use this to set the print out rate
+       		
+		distance = data[2] + (data[3] * 256);
+		//std::cout <<(int)data[0] << " " <<(int)data[1] << " Data is, low and high: ";
+           	std::cout << "TFmini reading is : " << distance << "cm \n";
+		if(distance < safeDistance[0]){
+			std::cout << "This is within warning safeDistance: " << safeDistance[0] << "\n";
+			if(distance < safeDistance[1]){
+				std::cout << "And it is also within dagenrous safeDistance: " << safeDistance[1] << "\n"; 
+			}
+		} 
+		std::cout << "----------------------------------------------------- \n";
+           	count = 0;
+	   }
+	   data[0]=0x11;
            data[1]=0x22;
            data[2]=0x33;
            data[3]=0x44;
-           std::cout << serDataAvailable(ser) << "\n";
+           //std::cout << serDataAvailable(ser) << "\n";
        }
     }
 
