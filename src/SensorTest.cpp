@@ -23,12 +23,7 @@ int main(int argc, char * argv[]){
 }
 else
 {
-    /*
-    * Reading 2 different safe distance which is specified by user
-    * safeDistance[0] is warning distance 
-    * safeDistance[1] is dangerous distance
-    */
-     
+
     std::fstream myfile("data.txt");
     int safeDistance[2];
     for(int i = 0; i < 2; i++)
@@ -58,6 +53,7 @@ else
     char data[9];
     int count = 0;
     int distance = 0;
+    serRead(ser, data, 9);
     while(1){
 	
         /*
@@ -69,16 +65,16 @@ else
        if(serDataAvailable(ser) == 9 ){
            count ++;
 	   serRead(ser, data, 9);
-	   if(count > 100){ //use this to set the print out rate
+	   if(count > 50){ //use this to set the print out rate
        		
 		distance = data[2] + (data[3] * 256);
 		//std::cout <<(int)data[0] << " " <<(int)data[1] << " Data is, low and high: ";
            	std::cout << "TFmini reading is : " << distance << "cm \n";
 		if(distance < safeDistance[0]){
-			std::cout << "This is within warning safeDistance: " << safeDistance[0] << "\n";
-			if(distance < safeDistance[1]){
-				std::cout << "And it is also within dagenrous safeDistance: " << safeDistance[1] << "\n"; 
-			}
+			std::cout << "Watch! Watch distance is: " << safeDistance[0] << "cm \n";
+		}
+		if(distance < safeDistance[1]){
+			std::cout << "Alert! Danger distance is: " << safeDistance[1] << "cm \n"; 
 		} 
 		std::cout << "----------------------------------------------------- \n";
            	count = 0;
