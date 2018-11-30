@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/Driver.dir/main.cpp.o CMakeFiles/Driver.dir/gpio.cpp.o CMakeFiles/Driver.dir/Mux.cpp.o  -o Driver.exe -Wl,--out-implib,libDriver.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
