@@ -154,6 +154,11 @@ public:
         k_param_single_servo_4,         // 78 - remove
 
         //
+        // 79
+        //
+        k_param_flappy_enable =79   // main enable for flappyDrone feature
+
+        //
         // 80: Heli
         //
         k_param_heli_servo_1 = 80,  // remove
@@ -365,6 +370,8 @@ public:
         // the k_param_* space is 9-bits in size
         // 511: reserved
     };
+
+    AP_Int16        k_param_flappy_enable; // 0 = disable, 1 = one sensor, 2 = all enable
 
     AP_Int16        format_version;
 
