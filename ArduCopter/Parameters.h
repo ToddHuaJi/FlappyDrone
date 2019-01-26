@@ -465,7 +465,7 @@ public:
     AP_Float                acro_rp_expo;
 
     //FlappyDrone 
-    AP_Int16        param_flappy_enable; // 0 = disable, 1 = one sensor, 2 = all enable
+    AP_Int16                flappy_enable; // 0 = disable, 1 = one sensor, 2 = all enable
 
 
     // Note: keep initializers here in the same order as they are declared

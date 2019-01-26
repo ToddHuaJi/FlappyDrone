@@ -29,6 +29,12 @@
 #define GOBJECTN(v, pname, name, class) { AP_PARAM_GROUP, name, Parameters::k_param_ ## pname, (const void *)&copter.v, {group_info : class::var_info} }
 
 const AP_Param::Info Copter::var_info[] = {
+    //@Param: flappyDrone_Enable
+    //@DisplayName: FlappyDrone Enable
+    //@Description: Main enable for FlappyDrone feature
+    //@Range: 0 2
+    GSCALAR(flappy_enable, "flappyDrone_Enable", 0),
+
     // @Param: SYSID_SW_MREV
     // @DisplayName: Eeprom format version number
     // @Description: This value is incremented when changes are made to the eeprom format
@@ -746,12 +752,7 @@ const AP_Param::Info Copter::var_info[] = {
   2nd group of parameters
  */
 const AP_Param::GroupInfo ParametersG2::var_info[] = {
-        //@Param: flappyDrone_Enable
-    //@DisplayName: FlappyDrone Enable
-    //@Description: Main enable for FlappyDrone feature
-    //@Range: 0 2
-    GSCALAR(param_flappy_enable, "flappyDrone_Enable", K_PARAM_FLAPPY_ENABLE_DEFAULT),
-
+   
 
     // @Param: WP_NAVALT_MIN
     // @DisplayName: Minimum navigation altitude
