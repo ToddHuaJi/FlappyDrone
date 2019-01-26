@@ -936,7 +936,7 @@ const AP_Param::GroupInfo ParametersG2::var_info[] = {
     //@DisplayName: FlappyDrone Enable
     //@Description: Main enable for FlappyDrone feature
     //@Range: 0 2
-    GSCALAR(k_param_flappy_enable, "FlappyDrone_Enable", K_PARAM_FLAPPY_ENABLE_DEFAULT)
+    GSCALAR(param_flappy_enable, "FlappyDrone_Enable", K_PARAM_FLAPPY_ENABLE_DEFAULT)
 };
 
 // These CHx_OPT param descriptions are here so that users of beta Mission Planner (which uses the master branch as its source of descriptions)
