@@ -156,7 +156,7 @@ public:
         //
         // 79
         //
-        k_param_flappy_enable =79   // main enable for flappyDrone feature
+        k_param_flappy_enable =79,   // main enable for flappyDrone feature
 
         //
         // 80: Heli
