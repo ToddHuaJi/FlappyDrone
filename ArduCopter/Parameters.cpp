@@ -746,6 +746,12 @@ const AP_Param::Info Copter::var_info[] = {
   2nd group of parameters
  */
 const AP_Param::GroupInfo ParametersG2::var_info[] = {
+        //@Param: flappyDrone_Enable
+    //@DisplayName: FlappyDrone Enable
+    //@Description: Main enable for FlappyDrone feature
+    //@Range: 0 2
+    GSCALAR(param_flappy_enable, "flappyDrone_Enable", K_PARAM_FLAPPY_ENABLE_DEFAULT),
+
 
     // @Param: WP_NAVALT_MIN
     // @DisplayName: Minimum navigation altitude
@@ -932,11 +938,6 @@ const AP_Param::GroupInfo ParametersG2::var_info[] = {
     
     AP_GROUPEND,
 
-    //@Param: FlappyDrone_Enable
-    //@DisplayName: FlappyDrone Enable
-    //@Description: Main enable for FlappyDrone feature
-    //@Range: 0 2
-    GSCALAR(param_flappy_enable, "FlappyDrone_Enable", K_PARAM_FLAPPY_ENABLE_DEFAULT)
 };
 
 // These CHx_OPT param descriptions are here so that users of beta Mission Planner (which uses the master branch as its source of descriptions)
