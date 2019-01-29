@@ -1,5 +1,10 @@
 #include "Copter.h"
 
+
+
+
+
+
 // return barometric altitude in centimeters
 void Copter::read_barometer(void)
 {

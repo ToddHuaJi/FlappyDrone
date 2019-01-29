@@ -82,6 +82,7 @@
 #include <AP_SmartRTL/AP_SmartRTL.h>
 #include <AP_TempCalibration/AP_TempCalibration.h>
 #include <AC_AutoTune/AC_AutoTune.h>
+#include <FlappyDrone/FalppyDrone.h>
 
 // Configuration
 #include "defines.h"
@@ -849,6 +850,7 @@ private:
     void update_visual_odom();
     void winch_init();
     void winch_update();
+    void init_flappyDrone();
 
     // setup.cpp
     void report_compass();
