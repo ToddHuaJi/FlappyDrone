@@ -1,7 +1,10 @@
 #include "Copter.h"
 
 
-
+void Copter::init_ardupilot(void)
+{
+    // #if flap
+}
 
 
 
