@@ -82,7 +82,7 @@
 #include <AP_SmartRTL/AP_SmartRTL.h>
 #include <AP_TempCalibration/AP_TempCalibration.h>
 #include <AC_AutoTune/AC_AutoTune.h>
-#include <FlappyDrone/FalppyDrone.h>
+#include <FlappyDrone/FlappyDrone.h>
 
 // Configuration
 #include "defines.h"
@@ -210,7 +210,7 @@ public:
 
 private:
 
-    FlappyDrone flappy(serial_manager);
+    // FlappyDrone flappy(serial_manager);
     static const AP_FWVersion fwver;
 
     // key aircraft parameters passed to multiple libraries
