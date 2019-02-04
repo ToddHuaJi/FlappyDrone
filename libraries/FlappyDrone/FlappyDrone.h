@@ -26,5 +26,19 @@
 class FlappyDrone_Backend;
 
 class FlappyDrone{
-    public FlappyDrone(AP_SerialManager &_serial_manager );
+    friend class FlapyDrone_Backend;    
+public:
+    FlappyDrone(AP_SerialManager &_serial_manager);
+
+    /* Copied form RangeFinder, "Do not allow copies" */
+
+    FlappyDrone(const FlappyDrone &other) = delete;
+    FlappyDrone &operator=(const FlappyDrone&) = delete;
+
+    // Initialise
+    void init(void);
+
+    // update all state, should be called at 10Hz?
+    void update(void);
 }
+

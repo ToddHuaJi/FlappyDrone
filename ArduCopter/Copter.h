@@ -209,6 +209,8 @@ public:
     void loop() override;
 
 private:
+
+    FlappyDrone flappy(serial_manager);
     static const AP_FWVersion fwver;
 
     // key aircraft parameters passed to multiple libraries

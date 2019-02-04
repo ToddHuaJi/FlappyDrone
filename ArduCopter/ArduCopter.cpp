@@ -397,6 +397,7 @@ void Copter::three_hz_loop()
 {
     // check if we've lost contact with the ground station
     failsafe_gcs_check();
+    init_flappyDrone();
 
     // check if we've lost terrain data
     failsafe_terrain_check();

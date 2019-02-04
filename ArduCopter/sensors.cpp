@@ -1,9 +1,14 @@
 #include "Copter.h"
 
 
-void Copter::init_ardupilot(void)
+void Copter::init_flappyDrone(void)
 {
     // #if flap
+    if(flappy_enable){
+        DataFlash_Class::_instance()->Log_Write("FLAP", "TimeUS",
+                                "s", "F", "Q", AP_HAL:micros64());
+        gcs().send_text(MAV_SEVERITY_CRITICAL, "Flappy Hello", (double)3.142f)                         
+    }
 }
 
 
