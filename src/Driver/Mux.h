@@ -8,7 +8,7 @@
 
 class Mux {
 public:
-    Mux();
+    Mux ();
     bool initializeGpio();
     void setChannel(int channel);
     int getDistanceData(unsigned ser);
@@ -18,7 +18,7 @@ private:
     Navio::Pin *pin0;
     Navio::Pin *pin1;
     Navio::Pin *pin2;
-    Navio::Pin *pin3;
+    
 };
 
 

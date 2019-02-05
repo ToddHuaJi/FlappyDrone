@@ -14,7 +14,7 @@ using namespace std;
 
 
 int main(int argc, char * argv[]){
-    cout << "Hello, World!";
+    cout << "Hello, World!" <<endl;
 
     if (gpioInitialise() < 0)
 {
@@ -53,7 +53,11 @@ else
     char data[9];
     int count = 0;
     int distance = 0;
+    cout << data[2] << " " << data[3] <<endl;
+    cout << "Reading Data" << endl;
     serRead(ser, data, 9);
+    cout << "Reading Done" <<endl;
+    cout << data[2] << " " << data[3] <<endl;
     while(1){
 	
         /*
@@ -65,7 +69,7 @@ else
        if(serDataAvailable(ser) == 9 ){
            count ++;
 	   serRead(ser, data, 9);
-	   if(count > 50){ //use this to set the print out rate
+	   if(1){ //use this to set the print out rate
        		
 		distance = data[2] + (data[3] * 256);
 		//std::cout <<(int)data[0] << " " <<(int)data[1] << " Data is, low and high: ";
