@@ -2,41 +2,27 @@
 #include <ctype.h>
 #include <AP_HAL/AP_HAL.h>
 #include <AP_SerialManager/AP_SerialManager.h>
-#include <stdint.h>
-#include <AP_HAL_Linux/UARTDriver.h> 
 
+// const AP_HAL::HAL& hal = AP_HAL::get_HAL();
 
-FlappyDrone::FlappyDrone(AP_SerialManager &_serial_manager){
-    uartDriver = UARTDriver(true);
-    uartDriver.set_device_path("/dev/ttyAMA0");
-    uartDriver.begin(115200);
+FlappyDrone::FlappyDrone(AP_SerialManager &serial_manager){
+    
+    uart = serial_manager.find_serial(serial_manager.SerialProtocol_Rangefinder,0);
+
+}
+
+void setup(){
     
 }
-void setup(){
-    // if(TFminiDriver == nullptr){
-        
-    // }
-    // hal.scheduler->delay(1000);
-    // TFminiDriver->begin(115200);
-}
-// void FlappyDrone::init(void){
-//     // if(num_instance!=0){
-//     //     return;
-//     }
 
 int FlappyDrone::get_reading(){
-    if(uartDriver==nullptr){
-        return false;
-    }
-    if(!uartDriver.is_active){
-        return false;
-    }
+
     int sum =0;
     uint16_t count = 0;
-    uint16_t nbytes = uartDriver->available();
+    uint16_t nbytes =  uart->available();
     return (int)nbytes;
     while(nbytes-- > 0){
-        char c = uartDriver->read();
+        char c =  uart->read();
         // return (int)c;
         count++;
         if(count == 3){ //first data char

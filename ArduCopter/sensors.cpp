@@ -5,6 +5,8 @@
 void Copter::init_flappyDrone(void)
 {
     
+
+    
     int temp_dist = flappy.get_reading();
     char output[32];
     sprintf(output, "%d", temp_dist);
@@ -29,11 +31,11 @@ void Copter::read_barometer(void)
 
 void Copter::init_rangefinder(void)
 {
-#if RANGEFINDER_ENABLED == ENABLED
+// #if RANGEFINDER_ENABLED == ENABLED
    rangefinder.init();
    rangefinder_state.alt_cm_filt.set_cutoff_frequency(RANGEFINDER_WPNAV_FILT_HZ);
    rangefinder_state.enabled = rangefinder.has_orientation(ROTATION_PITCH_270);
-#endif
+// #endif
 }
 
 // return rangefinder altitude in centimeters

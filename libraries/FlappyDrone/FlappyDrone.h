@@ -25,36 +25,20 @@
 #include <stdint.h>
 #include <AP_HAL_Linux/UARTDriver.h>
 
-class FlappyDrone_Backend;
-
 class FlappyDrone{
-    // friend class FlapyDrone_Backend;    
+      
 public:
-    // struct FlappyDrone_Data{
-    //     uint16_t distance_cm;       // distance in cm
-    //     uint16_t angle;             // angle clock wise in relationship to the front    
-    // }
-    UARTDriver uartDriver;
+  
 
-    FlappyDrone(AP_SerialManager &_serial_manager);
+    FlappyDrone(AP_SerialManager &serial_manager);
+  
+    static bool detect(AP_SerialManager &serial_manager, uint8_t serial_instance);
+
     int get_reading();
     void setup();
-    // FlappyDrone(void);
-    // /* Copied form RangeFinder, "Do not allow copies" */
-
-    // FlappyDrone(const FlappyDrone &other) = delete;
-    // FlappyDrone &operator=(const FlappyDrone&) = delete;
-
-    // // Initialise
-    // void init(void);
-
-    // // update all state, should be called at 10Hz?
-    // void update(void);
+   
 private:
-    // unit8_t num_instance;
-    // AP_HAL::UARTDriver *uart = nullptr;
-
-    
+    AP_HAL::UARTDriver *uart = nullptr;
     char databuf[9];
 };
 
