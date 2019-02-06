@@ -1,15 +1,18 @@
 #include "Copter.h"
+#include <stdlib.h>
 
 
 void Copter::init_flappyDrone(void)
 {
-    // #if flap
-    if(1){
-        // DataFlash_Class::_Instance()->Log_Write("FLAP", "TimeUS",
-        //                         "s", "F", "Q", AP_HAL::micros64());
-        logger.Write_Message("Flappy Test, logger 1");
-        gcs().send_text(MAV_SEVERITY_CRITICAL, "Flappy Hello", (double)3.142f);                         
-    }
+    
+    int temp_dist = flappy.get_reading();
+    char output[32];
+    sprintf(output, "%d", temp_dist);
+
+    gcs().send_text(MAV_SEVERITY_CRITICAL,"TFmini: ", (double)3.142f);
+    gcs().send_text(MAV_SEVERITY_DEBUG, output, (double)3.142f);                         
+    gcs().send_named_float("Flappy Hello", 10);
+
 }
 
 
@@ -47,6 +50,15 @@ void Copter::read_rangefinder(void)
     rangefinder_state.alt_healthy = ((rangefinder.status_orient(ROTATION_PITCH_270) == RangeFinder::RangeFinder_Good) && (rangefinder.range_valid_count_orient(ROTATION_PITCH_270) >= RANGEFINDER_HEALTH_MAX));
 
     int16_t temp_alt = rangefinder.distance_cm_orient(ROTATION_PITCH_270);
+
+    // //////////////////////////////////////////////////
+
+    char output[32];
+    sprintf(output, "%d", temp_alt);
+    gcs().send_text(MAV_SEVERITY_DEBUG, output, (double)3.142f);  
+    // /////////////////////////////////////////////
+
+
 
  #if RANGEFINDER_TILT_CORRECTION == ENABLED
     // correct alt for angle of the rangefinder

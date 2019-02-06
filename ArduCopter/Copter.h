@@ -210,7 +210,7 @@ public:
 
 private:
 
-    // FlappyDrone flappy(serial_manager);
+    
     static const AP_FWVersion fwver;
 
     // key aircraft parameters passed to multiple libraries
@@ -285,6 +285,9 @@ private:
     int8_t ekf_primary_core;
 
     AP_SerialManager serial_manager;
+
+    FlappyDrone flappy = FlappyDrone(serial_manager);
+
 
     // GCS selection
     GCS_Copter _gcs; // avoid using this; use gcs()
