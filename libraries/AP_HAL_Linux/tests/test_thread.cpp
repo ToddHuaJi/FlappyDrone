@@ -48,7 +48,6 @@ TEST(LinuxThread, override_run)
     while (thr.n_loop == 0) {
         usleep(10000);
     }
-
     EXPECT_EQ(thr.n_loop, 1);
 }
 

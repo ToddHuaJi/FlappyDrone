@@ -53,15 +53,6 @@ void Copter::read_rangefinder(void)
 
     int16_t temp_alt = rangefinder.distance_cm_orient(ROTATION_PITCH_270);
 
-    // //////////////////////////////////////////////////
-
-    char output[32];
-    sprintf(output, "%d", temp_alt);
-    gcs().send_text(MAV_SEVERITY_DEBUG, output, (double)3.142f);  
-    // /////////////////////////////////////////////
-
-
-
  #if RANGEFINDER_TILT_CORRECTION == ENABLED
     // correct alt for angle of the rangefinder
     temp_alt = (float)temp_alt * MAX(0.707f, ahrs.get_rotation_body_to_ned().c.z);

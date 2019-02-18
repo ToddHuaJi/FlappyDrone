@@ -101,6 +101,7 @@ public:
     AP_HAL::UARTDriver* uartE;
     AP_HAL::UARTDriver* uartF;
     AP_HAL::UARTDriver* uartG;
+    
     AP_HAL::I2CDeviceManager* i2c_mgr;
     AP_HAL::SPIDeviceManager* spi;
     AP_HAL::AnalogIn*   analogin;

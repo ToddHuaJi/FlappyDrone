@@ -28,7 +28,6 @@
 class FlappyDrone{
       
 public:
-  
 
     FlappyDrone(AP_SerialManager &serial_manager);
   

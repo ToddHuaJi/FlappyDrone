@@ -3,7 +3,7 @@
 #include <AP_HAL/AP_HAL.h>
 #include <AP_SerialManager/AP_SerialManager.h>
 
-// const AP_HAL::HAL& hal = AP_HAL::get_HAL();
+
 
 FlappyDrone::FlappyDrone(AP_SerialManager &serial_manager){
     
