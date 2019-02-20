@@ -82,10 +82,7 @@
 #include <AP_SmartRTL/AP_SmartRTL.h>
 #include <AP_TempCalibration/AP_TempCalibration.h>
 #include <AC_AutoTune/AC_AutoTune.h>
-<<<<<<< HEAD
 #include <FlappyDrone/FlappyDrone.h>
-=======
->>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
 
 // Configuration
 #include "defines.h"
@@ -290,7 +287,7 @@ private:
 
     AP_SerialManager serial_manager;
 
-    FlappyDrone flappy = FlappyDrone(serial_manager);
+    FlappyDrone flappy = FlappyDrone();
 
 
     // GCS selection
