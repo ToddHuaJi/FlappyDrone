@@ -5,38 +5,21 @@
 
 
 
-FlappyDrone::FlappyDrone(AP_SerialManager &serial_manager){
+FlappyDrone::FlappyDrone(){
     
-    uart = serial_manager.find_serial(serial_manager.SerialProtocol_Rangefinder,0);
-
+    uartPort = new UARTDevice("/dev/ttyAMA0");
+    uartPort->set_speed((uint32_t)115200);
+    uartPort->open();
 }
 
-void setup(){
+
+
+uint8_t* FlappyDrone::getSingleDistance(){
+
+    uint8_t* output = new uint8_t[10];
     
-}
-
-int FlappyDrone::get_reading(){
-
-    int sum =0;
-    uint16_t count = 0;
-    uint16_t nbytes =  uart->available();
-    return (int)nbytes;
-    while(nbytes-- > 0){
-        char c =  uart->read();
-        // return (int)c;
-        count++;
-        if(count == 3){ //first data char
-            sum += (uint16_t)c;
-        }
-        if(count == 4){ //second data char 
-            sum += 256*((uint16_t)c);
-        }
-    }
-
-    if(count == 0){
-        return -1;
-    }
-    return sum;
+    uartPort->read(output,(uint16_t)9);
+    return output;
 }
 
 

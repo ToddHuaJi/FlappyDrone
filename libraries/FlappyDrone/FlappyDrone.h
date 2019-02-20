@@ -24,20 +24,17 @@
 #include <AP_SerialManager/AP_SerialManager.h>
 #include <stdint.h>
 #include <AP_HAL_Linux/UARTDriver.h>
+#include <AP_HAL_Linux/UARTDevice.h>
 
 class FlappyDrone{
       
 public:
 
-    FlappyDrone(AP_SerialManager &serial_manager);
-  
-    static bool detect(AP_SerialManager &serial_manager, uint8_t serial_instance);
-
-    int get_reading();
-    void setup();
+    FlappyDrone();
+    uint8_t * getSingleDistance();
+    
    
 private:
-    AP_HAL::UARTDriver *uart = nullptr;
-    char databuf[9];
+    UARTDevice* uartPort;
 };
 

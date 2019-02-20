@@ -4,16 +4,7 @@
 
 void Copter::init_flappyDrone(void)
 {
-    
-
-    
-    int temp_dist = flappy.get_reading();
-    char output[32];
-    sprintf(output, "%d", temp_dist);
-
-    gcs().send_text(MAV_SEVERITY_CRITICAL,"TFmini: ", (double)3.142f);
-    gcs().send_text(MAV_SEVERITY_DEBUG, output, (double)3.142f);                         
-    gcs().send_named_float("Flappy Hello", 10);
+    uint8_t* signleReading = flappy.getSingleDistance();
 
 }
 

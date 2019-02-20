@@ -401,7 +401,6 @@ void Copter::three_hz_loop()
     // read_rangefinder();
 
 
->>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
     // check if we've lost terrain data
     failsafe_terrain_check();
 
