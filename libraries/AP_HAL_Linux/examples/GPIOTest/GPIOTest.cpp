@@ -15,17 +15,17 @@ const AP_HAL::HAL& hal = AP_HAL::get_HAL();
 
 int parse_gpio_pin_number(uint8_t argc, const Menu::arg *argv) {
     if (argc != 2) {
-        fprintf(stderr, "Input and output commands take only one argument, which is the GPIO pin number\n");
+        fprintf(stderr, "Input and output commands take only one argument, which is the port number\n");
         return -1;
     }
 
-    long int pin = argv[1].i;
-    if (pin <= 0) {
-        fprintf(stderr, "Invalid pin number: %ld\n", pin);
+    long int port = argv[1].i;
+    if (port < 0 || port>7) {
+        fprintf(stderr, "Invalid port number: %ld\n", pin);
         return -1;
     }
 
-    return pin;
+    return port;
 }
 
 static int8_t test_gpio_input(uint8_t argc, const Menu::arg *argv, bool use_channel) {
@@ -50,29 +50,40 @@ static int8_t test_gpio_input(uint8_t argc, const Menu::arg *argv, bool use_chan
 }
 
 static int8_t test_gpio_output(uint8_t argc, const Menu::arg *argv, bool use_channel) {
-    AP_HAL::DigitalSource *ch = nullptr;
-    int pin = parse_gpio_pin_number(argc, argv);
+    AP_HAL::DigitalSource *ch1 = nullptr;
+    AP_HAL::DigitalSource *ch2 = nullptr;
+    AP_HAL::DigitalSource *ch3 = nullptr;
+    int port = parse_gpio_pin_number(argc, argv);
 
-    if (pin <= 0) return -1;
+    if (port < 0) return -1;
 
     if (use_channel) {
-        ch = hal.gpio->channel(pin);
-        ch->mode(HAL_GPIO_OUTPUT);
+        ch1 = hal.gpio->channel(7);
+        ch1->mode(HAL_GPIO_OUTPUT);
+        ch2 = hal.gpio->channel(8);
+        ch2->mode(HAL_GPIO_OUTPUT);
+        ch3 = hal.gpio->channel(9);
+        ch3->mode(HAL_GPIO_OUTPUT);
     } else {
-        hal.gpio->pinMode(pin, HAL_GPIO_OUTPUT);
+        hal.gpio->pinMode(7, HAL_GPIO_OUTPUT);
+        hal.gpio->pinMode(8, HAL_GPIO_OUTPUT);
+        hal.gpio->pinMode(9, HAL_GPIO_OUTPUT);
     }
 
-    hal.console->printf("Now I'll start toggling the signal on the pin number %d on intervals of 1 second."
-            " It's recommended to verify that the signal is reaching it (e.g. by using a LED)\n", pin);
-    uint8_t signal = 0;
-    while (1) {
-        signal ^= 1;
-        if (use_channel) {
-            ch->write(signal);
-        } else {
-            hal.gpio->write(pin, signal);
-        }
-        sleep(1);
+    hal.console->printf("Now I'll start toggling the signal on the port number %d ."
+            " It's recommended to verify that the signal is reaching it (e.g. by using a LED)\n", port);
+
+    switch (port) {
+        // trivial , need to be defined
+        case 0: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,0); break;
+        case 1: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); break;
+        case 2: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,0); break;
+        case 3: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,1); break;
+        case 4: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,0); break;
+        case 5: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,1); break;
+        case 6: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); break;
+        case 7: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); break;
+
     }
     return 0;
 }
@@ -108,7 +119,7 @@ const struct Menu::command test_menu_commands[] = {
     {"output_ch",      MENU_FUNC(gpio_output_channel)}
 };
 
-MENU(main_menu, "GPIOTest: Please select one of the operations followed by the GPIO pin number", test_menu_commands);
+MENU(main_menu, "GPIOTest: Please select one of the operations followed by the mux port number", test_menu_commands);
 
 void setup(void)
 {

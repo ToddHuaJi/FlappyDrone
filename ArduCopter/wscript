@@ -35,7 +35,10 @@ def build(bld):
             'AP_OSD',
             'AC_AutoTune',
             'AP_KDECAN',
+<<<<<<< HEAD
             'FlappyDrone',
+=======
+>>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
         ],
     )
 

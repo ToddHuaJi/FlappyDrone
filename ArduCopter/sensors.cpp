@@ -1,4 +1,5 @@
 #include "Copter.h"
+<<<<<<< HEAD
 #include <stdlib.h>
 
 
@@ -18,6 +19,8 @@ void Copter::init_flappyDrone(void)
 }
 
 
+=======
+>>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
 
 // return barometric altitude in centimeters
 void Copter::read_barometer(void)
@@ -31,11 +34,19 @@ void Copter::read_barometer(void)
 
 void Copter::init_rangefinder(void)
 {
+<<<<<<< HEAD
 // #if RANGEFINDER_ENABLED == ENABLED
    rangefinder.init();
    rangefinder_state.alt_cm_filt.set_cutoff_frequency(RANGEFINDER_WPNAV_FILT_HZ);
    rangefinder_state.enabled = rangefinder.has_orientation(ROTATION_PITCH_270);
 // #endif
+=======
+#if RANGEFINDER_ENABLED == ENABLED
+   rangefinder.init();
+   rangefinder_state.alt_cm_filt.set_cutoff_frequency(RANGEFINDER_WPNAV_FILT_HZ);
+   rangefinder_state.enabled = rangefinder.has_orientation(ROTATION_PITCH_270);
+#endif
+>>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
 }
 
 // return rangefinder altitude in centimeters

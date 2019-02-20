@@ -744,7 +744,10 @@
 #ifndef OSD_ENABLED
  #define OSD_ENABLED DISABLED
 #endif
+<<<<<<< HEAD
 
 #ifndef K_PARAM_FLAPPY_ENABLE_DEFAULT
   #define K_PARAM_FLAPPY_ENABLE_DEFAULT 0 //default disabled
 #endif
+=======
+>>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
