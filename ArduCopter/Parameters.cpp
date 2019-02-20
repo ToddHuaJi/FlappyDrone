@@ -29,15 +29,12 @@
 #define GOBJECTN(v, pname, name, class) { AP_PARAM_GROUP, name, Parameters::k_param_ ## pname, (const void *)&copter.v, {group_info : class::var_info} }
 
 const AP_Param::Info Copter::var_info[] = {
-<<<<<<< HEAD
     //@Param: flappyDrone_Enable
     //@DisplayName: FlappyDrone Enable
     //@Description: Main enable for FlappyDrone feature
     //@Range: 0 2
     GSCALAR(flappy_enable, "flappyDrone_Enable", 0),
 
-=======
->>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
     // @Param: SYSID_SW_MREV
     // @DisplayName: Eeprom format version number
     // @Description: This value is incremented when changes are made to the eeprom format
@@ -755,10 +752,7 @@ const AP_Param::Info Copter::var_info[] = {
   2nd group of parameters
  */
 const AP_Param::GroupInfo ParametersG2::var_info[] = {
-<<<<<<< HEAD
    
-=======
->>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
 
     // @Param: WP_NAVALT_MIN
     // @DisplayName: Minimum navigation altitude
@@ -943,12 +937,8 @@ const AP_Param::GroupInfo ParametersG2::var_info[] = {
     AP_SUBGROUPPTR(autotune_ptr, "AUTOTUNE_",  29, ParametersG2, Copter::AutoTune),
 #endif
     
-<<<<<<< HEAD
     AP_GROUPEND,
 
-=======
-    AP_GROUPEND
->>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
 };
 
 // These CHx_OPT param descriptions are here so that users of beta Mission Planner (which uses the master branch as its source of descriptions)

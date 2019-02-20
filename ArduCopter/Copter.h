@@ -212,11 +212,8 @@ public:
     void loop() override;
 
 private:
-<<<<<<< HEAD
 
     
-=======
->>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
     static const AP_FWVersion fwver;
 
     // key aircraft parameters passed to multiple libraries
@@ -255,10 +252,7 @@ private:
     AP_InertialSensor ins;
 
     RangeFinder rangefinder{serial_manager, ROTATION_PITCH_270};
-<<<<<<< HEAD
     
-=======
->>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
     struct {
         bool enabled:1;
         bool alt_healthy:1; // true if we can trust the altitude from the rangefinder
@@ -296,12 +290,9 @@ private:
 
     AP_SerialManager serial_manager;
 
-<<<<<<< HEAD
     FlappyDrone flappy = FlappyDrone(serial_manager);
 
 
-=======
->>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
     // GCS selection
     GCS_Copter _gcs; // avoid using this; use gcs()
     GCS_Copter &gcs() { return _gcs; }
@@ -868,10 +859,7 @@ private:
     void update_visual_odom();
     void winch_init();
     void winch_update();
-<<<<<<< HEAD
     void init_flappyDrone();
-=======
->>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
 
     // setup.cpp
     void report_compass();
@@ -995,11 +983,8 @@ private:
     ModeZigZag mode_zigzag;
 #endif
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 8369de2c8092ecc66d35e97036bb6fb3902e3f24
     // mode.cpp
     Mode *mode_from_mode_num(const uint8_t mode);
     void exit_mode(Mode *&old_flightmode, Mode *&new_flightmode);
