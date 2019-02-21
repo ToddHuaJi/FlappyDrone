@@ -13,6 +13,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "GCS_MAVLink/GCS.h"
 #include "AP_Proximity.h"
 #include "AP_Proximity_LightWareSF40C.h"
 #include "AP_Proximity_RPLidarA2.h"
@@ -147,6 +148,21 @@ const AP_Param::GroupInfo AP_Proximity::var_info[] = {
     // @Range: 0 45
     // @User: Standard
     AP_GROUPINFO("_IGN_WID6", 15, AP_Proximity, _ignore_width_deg[5], 0),
+
+    // @Param: _WATCH_DIST
+    // @DisplayName: Proximity watch distance
+    // @Description: watch distacne parameter
+    // @Range: -32768 32767 
+    // @User: Advanced
+    AP_GROUPINFO("_WATCH_DIST",   16, AP_Proximity, _watch_dist, 100),
+
+    // @Param: _ALERT_DIST
+    // @DisplayName: Proximity alert distance
+    // @Description: alert distacne parameter
+    // @Range: -32768 32767 
+    // @User: Advanced
+    AP_GROUPINFO("_ALERT_DIST",   17, AP_Proximity, _alert_dist, 50),
+
 
 #if PROXIMITY_MAX_INSTANCES > 1
     // @Param: 2_TYPE
@@ -464,4 +480,13 @@ bool AP_Proximity::sensor_failed() const
     return get_status() != Proximity_Good;
 }
 
+void AP_Proximity::send_txt_to_mp() {
+    int x = 70;
+    if (x > _alert_dist.get() && x < _watch_dist.get()) {
+        gcs().send_text(MAV_SEVERITY_CRITICAL, "Watch! %5.3f", (double)3.142f);
+    }
+    else if (x < _alert_dist.get()) {
+        gcs().send_text(MAV_SEVERITY_CRITICAL, "Alert! %5.3f", (double)3.142f);
+    }
+}
 AP_Proximity *AP_Proximity::_singleton;
