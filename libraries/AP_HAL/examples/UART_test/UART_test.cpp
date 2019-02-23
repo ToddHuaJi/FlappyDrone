@@ -21,6 +21,7 @@ void loop();
 const HAL_Linux::HAL& hal = AP_HAL::get_HAL();
 // const AP_HAL::HAL &hal = HAL_Linux::g
 UARTDevice* uartL;
+Linux::UARTDriver *uartDriverTest;
 
 /*
   setup one UART at 57600
@@ -36,6 +37,8 @@ static void setup_uart(AP_HAL::UARTDriver *uart, const char *name)
     uart->begin(115200, 0, 0);
     uart->printf("Hello on UART %s \n",
                  name );
+
+    
 }
 
 
@@ -57,6 +60,10 @@ void setup(void)
     uartL->set_speed((uint32_t)115200);
     uartL->open();
 
+    // uartDriverTest = Linux::UARTDriver::from(hal.uartA);
+    // uartDriverTest = new Linux::UARTDriver(true);
+    // uartDriverTest->set_device_path("/dev/ttyAMA0");
+    // uartDriverTest->begin(115200);
     // uartL = new Linux::UARTDriver(true);
     // uartL->set_device_path("/dev/ttyAMA0");
     // uartL->begin(115200);
@@ -69,10 +76,11 @@ static void test_uart(AP_HAL::UARTDriver *uart, const char *name)
                  name, (double)(AP_HAL::millis() * 0.001f));
     
     
-    // char readout = 'a';
+    // // char readout = 'a';
     uint8_t* output = new uint8_t[10];
     
     uartL->read(output,(uint16_t)9);
+    // uint32_t available = uartDriverTest->available();
     // uartL->
     
     uart->printf("Read out on UART %s at %x\n",name, output[0]);
@@ -84,6 +92,9 @@ static void test_uart(AP_HAL::UARTDriver *uart, const char *name)
     uart->printf("Read out on UART %s at %x\n",name, output[6]);
     uart->printf("Read out on UART %s at %x\n",name, output[7]);
     uart->printf("Read out on UART %s at %x\n",name, output[8]);
+    // uart->printf("Read out on UARTDrive at %x\n", available);
+    // uart->printf("Read out on UART %s \n",uartDriverTest->get_device_path());
+
 
 }
 
@@ -105,7 +116,7 @@ void loop(void)
 //     hal.uartA->set_device_path("/dev/ttyAMA0");
 // #endif
 
-    hal.scheduler->delay(5000);
+    hal.scheduler->delay(100);
 
 
 
