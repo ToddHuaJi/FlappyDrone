@@ -75,14 +75,23 @@ static int8_t test_gpio_output(uint8_t argc, const Menu::arg *argv, bool use_cha
 
     switch (port) {
         // trivial , need to be defined
-        case 0: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,0); break;
-        case 1: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); break;
-        case 2: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,0); break;
-        case 3: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,1); break;
-        case 4: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,0); break;
-        case 5: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,1); break;
-        case 6: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); break;
-        case 7: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); break;
+        case 0: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 1: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 2: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 3: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+        case 4: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 5: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 6: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 7: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+        case 8: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 9: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 10: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 11: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+        case 12: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 13: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 14: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 15: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+
 
     }
     return 0;
