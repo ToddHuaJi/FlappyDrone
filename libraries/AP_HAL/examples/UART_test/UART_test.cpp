@@ -59,6 +59,7 @@ void setup(void)
     // uartL->UARTDevice("/dev/ttyAMA0");
     uartL->set_speed((uint32_t)115200);
     uartL->open();
+    uartL->set_blocking(true);
 
     // uartDriverTest = Linux::UARTDriver::from(hal.uartA);
     // uartDriverTest = new Linux::UARTDriver(true);
@@ -83,15 +84,15 @@ static void test_uart(AP_HAL::UARTDriver *uart, const char *name)
     // uint32_t available = uartDriverTest->available();
     // uartL->
     
-    uart->printf("Read out on UART %s at %x\n",name, output[0]);
-    uart->printf("Read out on UART %s at %x\n",name, output[1]);
-    uart->printf("Read out on UART %s at %x\n",name, output[2]);
-    uart->printf("Read out on UART %s at %x\n",name, output[3]);
-    uart->printf("Read out on UART %s at %x\n",name, output[4]);
-    uart->printf("Read out on UART %s at %x\n",name, output[5]);
-    uart->printf("Read out on UART %s at %x\n",name, output[6]);
-    uart->printf("Read out on UART %s at %x\n",name, output[7]);
-    uart->printf("Read out on UART %s at %x\n",name, output[8]);
+    uart->printf("Header Byte 1:                    0x%x\n", output[0]);
+    uart->printf("Header Byte 2:                    0x%x\n", output[1]);
+    uart->printf("Distance lower Byte:              0x%x\n", output[2]);
+    uart->printf("Distance higher Byte:             0x%x\n", output[3]);
+    uart->printf("Low Signal Strength Byte:         0x%x\n", output[4]);
+    uart->printf("High Signal Strength Byte:        0x%x\n", output[5]);
+    uart->printf("Reservered Byte:                  0x%x\n", output[6]);
+    uart->printf("Original signal quality degree:   0x%x\n", output[7]);
+    uart->printf("Checksum:                         0x%x\n", output[8]);
     // uart->printf("Read out on UARTDrive at %x\n", available);
     // uart->printf("Read out on UART %s \n",uartDriverTest->get_device_path());
 
@@ -116,7 +117,7 @@ void loop(void)
 //     hal.uartA->set_device_path("/dev/ttyAMA0");
 // #endif
 
-    hal.scheduler->delay(100);
+    hal.scheduler->delay(1000);
 
 
 
