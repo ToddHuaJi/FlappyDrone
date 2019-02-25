@@ -31,10 +31,13 @@ class FlappyDrone{
 public:
 
     FlappyDrone();
-    uint8_t * getSingleDistance();
+    void update();
+    uint8_t* getReading();
     
+    uint8_t* readout = new uint8_t[10];
    
 private:
     UARTDevice* uartPort;
+    
 };
 

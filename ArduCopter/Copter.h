@@ -287,7 +287,7 @@ private:
 
     AP_SerialManager serial_manager;
 
-    FlappyDrone flappy = FlappyDrone();
+    FlappyDrone* flappy;
 
 
     // GCS selection
@@ -857,6 +857,7 @@ private:
     void winch_init();
     void winch_update();
     void init_flappyDrone();
+    void read_flappyDrone();
 
     // setup.cpp
     void report_compass();
