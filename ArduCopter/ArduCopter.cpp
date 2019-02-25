@@ -397,7 +397,7 @@ void Copter::three_hz_loop()
 {
     // check if we've lost contact with the ground station
     failsafe_gcs_check();
-    init_flappyDrone();
+    
     // read_rangefinder();
 
 
@@ -456,6 +456,8 @@ void Copter::one_hz_loop()
 
     // init compass location for declination
     init_compass_location();
+    init_flappyDrone();
+    read_flappyDrone();
 }
 
 // called at 50hz

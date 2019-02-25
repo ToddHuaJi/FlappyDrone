@@ -4,11 +4,19 @@
 
 void Copter::init_flappyDrone(void)
 {
-    uint8_t* signleReading = flappy.getSingleDistance();
-
+    if(flappy==nullptr){
+        flappy = new FlappyDrone();
+    }
 }
 
-
+void Copter::read_flappyDrone(void){
+    flappy->update();
+    gcs().send_text(MAV_SEVERITY_CRITICAL, "first byte! 0x%x", flappy->readout[0]);
+    gcs().send_text(MAV_SEVERITY_CRITICAL, "second byte! 0x%x", flappy->readout[1]);
+    gcs().send_text(MAV_SEVERITY_CRITICAL, "third byte! 0x%x", flappy->readout[2]);
+    gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
+    
+}
 
 // return barometric altitude in centimeters
 void Copter::read_barometer(void)
