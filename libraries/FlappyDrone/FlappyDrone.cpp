@@ -14,12 +14,10 @@ FlappyDrone::FlappyDrone(){
 
 
 
-uint8_t* FlappyDrone::getSingleDistance(){
-
-    uint8_t* output = new uint8_t[10];
-    
-    uartPort->read(output,(uint16_t)9);
-    return output;
+void FlappyDrone::update(){
+    uartPort->read(readout,(uint16_t)9);
 }
+
+
 
 

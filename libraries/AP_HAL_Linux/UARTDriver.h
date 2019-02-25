@@ -64,6 +64,7 @@ public:
      */
     uint64_t receive_time_constraint_us(uint16_t nbytes) override;
     
+    virtual int _read_fd(uint8_t *buf, uint16_t n);
 private:
     AP_HAL::OwnPtr<SerialDevice> _device;
     bool _nonblocking_writes;
@@ -96,7 +97,7 @@ protected:
     ByteBuffer _writebuf{0};
 
     virtual int _write_fd(const uint8_t *buf, uint16_t n);
-    virtual int _read_fd(uint8_t *buf, uint16_t n);
+    
 
     Linux::Semaphore _write_mutex;    
 };
