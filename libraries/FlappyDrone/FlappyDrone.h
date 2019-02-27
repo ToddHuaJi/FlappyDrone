@@ -23,21 +23,52 @@
 #include <AP_Math/AP_Math.h>
 #include <AP_SerialManager/AP_SerialManager.h>
 #include <stdint.h>
-#include <AP_HAL_Linux/UARTDriver.h>
-#include <AP_HAL_Linux/UARTDevice.h>
+#include <termios.h>                                                         
+#include <stdio.h>
+#include <stdlib.h>	
+#include <string.h>
+#include <unistd.h>                                                          
+#include <fcntl.h>                                                                                                               
+#include <sys/types.h> 
+#include <stdint.h>
+#include <fcntl.h>
+#include <sys/signal.h>
+#include <sys/types.h>
+#include <termios.h>
+#include <time.h>
+#include <stdbool.h>
+#include <stropts.h>
+#include <poll.h>	
 
+#include <errno.h>
+
+
+#define BAUDRATE B115200 
+#define MODEMDEVICE "/dev/ttyAMA0"
+
+/*
+    AP_HAL is completely ignored
+*/
 class FlappyDrone{
       
 public:
 
+    uint8_t* readout = new uint8_t[10];
+    uint64_t fd;
+
     FlappyDrone();
     void update();
     uint8_t* getReading();
+    /*flush is doing what flush does*/
+    void flush();
     
-    uint8_t* readout = new uint8_t[10];
    
 private:
-    UARTDevice* uartPort;
+    
+    int set_interface_attribs (int fd, int speed, int parity);
+    void set_blocking (int fd, int should_block);
+
+    int res;
     
 };
 
