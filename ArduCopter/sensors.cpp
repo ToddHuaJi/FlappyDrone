@@ -14,7 +14,7 @@ void Copter::read_flappyDrone(void){
     gcs().send_text(MAV_SEVERITY_CRITICAL, "first byte! 0x%x", flappy->readout[0]);
     gcs().send_text(MAV_SEVERITY_CRITICAL, "second byte! 0x%x", flappy->readout[1]);
     gcs().send_text(MAV_SEVERITY_CRITICAL, "third byte! %d cm", flappy->readout[2]);
-    gcs().send_text(MAV_SEVERITY_CRITICAL, "third byte! %d cm*256", flappy->readout[2]);
+    gcs().send_text(MAV_SEVERITY_CRITICAL, "fourth byte! %d cm*256", flappy->readout[3]);
 
     gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
     
