@@ -37,8 +37,16 @@
 void setup();
 void loop();
 
+int fd;                                                             
+    char buf[10];  
+	int variable;
+	// struct pollfd fds[1];
+	int ret, res;
 
 const HAL_Linux::HAL& hal = AP_HAL::get_HAL();
+// const AP_HAL::HAL &hal = HAL_Linux::g
+// UARTDevice* uartL;
+// Linux::UARTDriver *uartDriverTest;
 
 int set_interface_attribs (int fd, int speed, int parity)
 {
@@ -128,22 +136,8 @@ void setup(void)
     setup_uart(hal.uartC, "uartC");  // telemetry 1
     setup_uart(hal.uartD, "uartD");  // telemetry 2
     setup_uart(hal.uartE, "uartE");  // 2nd GPS
-  
-}
 
-static void test_uart(AP_HAL::UARTDriver *uart, const char *name)
-{
-    
-    uart->printf("Hello on UART %s at %.3f seconds\n",
-                 name, (double)(AP_HAL::millis() * 0.001f));
-    
-    int fd;                                                             
-    char buf[10];  
-	int variable;
-	// struct pollfd fds[1];
-	int ret, res;
-		
-	/* open the device */
+    	/* open the device */
 	fd = open(MODEMDEVICE, O_RDWR | O_NOCTTY | O_NONBLOCK);
 	if (fd == 0)
 	{
@@ -154,6 +148,18 @@ static void test_uart(AP_HAL::UARTDriver *uart, const char *name)
 
 	set_interface_attribs (fd, BAUDRATE, 0);  // set speed to 19200 bps, 8n1 (no parity)
 	set_blocking (fd, 0);                // set no blocking
+
+  
+}
+
+static void test_uart(AP_HAL::UARTDriver *uart, const char *name)
+{
+    
+    uart->printf("Hello on UART %s at %.3f seconds\n",
+                 name, (double)(AP_HAL::millis() * 0.001f));
+    
+    
+		
 
 	/* Open STREAMS device. */
 	// fds[0].fd = fd;
@@ -174,7 +180,7 @@ static void test_uart(AP_HAL::UARTDriver *uart, const char *name)
                     uart->printf("Received %x\n",buf[8]);
                     uart->printf("--------");
     tcflush (fd, TCIOFLUSH) ;
-	close(fd);	
+	// close(fd);	
 	
 }
 
@@ -196,7 +202,7 @@ void loop(void)
 //     hal.uartA->set_device_path("/dev/ttyAMA0");
 // #endif
 
-    hal.scheduler->delay(500);
+    hal.scheduler->delay(100);
 
 
 
