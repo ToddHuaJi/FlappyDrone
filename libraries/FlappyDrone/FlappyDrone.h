@@ -53,7 +53,7 @@ class FlappyDrone{
       
 public:
 
-    uint8_t* readout = new uint8_t[10];
+    char* readout = new char[10];
     uint64_t fd;
 
     FlappyDrone();

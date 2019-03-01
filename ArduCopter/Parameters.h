@@ -195,6 +195,8 @@ public:
         k_param_pos_control,
         k_param_circle_nav,
         k_param_loiter_nav,     // 105
+        k_param_watch_dist,     // 106
+        k_param_alert_dist,     // 107
 
         // 110: Telemetry control
         //
@@ -466,7 +468,8 @@ public:
 
     //FlappyDrone 
     AP_Int16                flappy_enable; // 0 = disable, 1 = one sensor, 2 = all enable
-
+    AP_Int16                watch_dist;
+    AP_Int16                alert_dist;
 
     // Note: keep initializers here in the same order as they are declared
     // above.

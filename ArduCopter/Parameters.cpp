@@ -29,6 +29,18 @@
 #define GOBJECTN(v, pname, name, class) { AP_PARAM_GROUP, name, Parameters::k_param_ ## pname, (const void *)&copter.v, {group_info : class::var_info} }
 
 const AP_Param::Info Copter::var_info[] = {
+    //@Param: watch_distance
+    //@DisplayName: Watch Distance
+    //@Description: watch distance parameter /user input
+    //@Range: 0 2
+    GSCALAR(watch_dist, "Watch_distance", 100),
+
+    //@Param: alert_distance
+    //@DisplayName: Alert Distance
+    //@Description: Alert distance parameter /user input
+    //@Range: 0 2
+    GSCALAR(alert_dist, "Alert_distance", 50),
+
     //@Param: flappyDrone_Enable
     //@DisplayName: FlappyDrone Enable
     //@Description: Main enable for FlappyDrone feature

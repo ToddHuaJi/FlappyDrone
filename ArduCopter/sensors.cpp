@@ -8,16 +8,54 @@ void Copter::init_flappyDrone(void)
         flappy = new FlappyDrone();
     }
 }
+/*
+int converter(char* hexVal){
+    int len = sizeof(hexVal); 
+    int base = 1; 
+    uint16_t dec_val = 0; 
+    for (int i=len-1; i>=0; i--) 
+    {    
+        if (hexVal[i]>='0' && hexVal[i]<='9') 
+        { 
+            dec_val += (hexVal[i] - 48)*base; 
+            base = base * 16; 
+        } 
+        else if (hexVal[i]>='A' && hexVal[i]<='F') 
+        { 
+            dec_val += (hexVal[i] - 55)*base; 
 
+            base = base*16; 
+        } 
+    }
+    return dec_val;
+}*/
 void Copter::read_flappyDrone(void){
     flappy->update();
+    //gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %x cm", flappy->readout[2]);
+    //gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %x cm", flappy->readout[3]);
+    uint16_t dist = flappy->readout[2]+ flappy->readout[3]*256;
+    //+converter(&flappy->readout[3])*256;
+
+    if(g.watch_dist > dist && g.alert_dist < dist){
+        gcs().send_text(MAV_SEVERITY_CRITICAL, "Watch!!! The distance is within the watch range %d cm", dist);
+    }
+    else if(g.alert_dist > dist){
+        gcs().send_text(MAV_SEVERITY_CRITICAL, "Alert!!! The distance is within the alert range %d cm", dist);
+        hal.gpio->pinMode(6, HAL_GPIO_OUTPUT);
+        hal.gpio->write(6,1);
+        hal.gpio->write(6,0);
+    }
+    else if(g.watch_dist < dist){
+        gcs().send_text(MAV_SEVERITY_CRITICAL, "You are good! %d cm", dist);
+    }
+
+    /*
     gcs().send_text(MAV_SEVERITY_CRITICAL, "first byte! 0x%x", flappy->readout[0]);
     gcs().send_text(MAV_SEVERITY_CRITICAL, "second byte! 0x%x", flappy->readout[1]);
     gcs().send_text(MAV_SEVERITY_CRITICAL, "third byte! %d cm", flappy->readout[2]);
     gcs().send_text(MAV_SEVERITY_CRITICAL, "fourth byte! %d cm*256", flappy->readout[3]);
-
     gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
-    
+    */
 }
 
 // return barometric altitude in centimeters
