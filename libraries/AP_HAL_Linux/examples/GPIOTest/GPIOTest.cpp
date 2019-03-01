@@ -20,8 +20,8 @@ int parse_gpio_pin_number(uint8_t argc, const Menu::arg *argv) {
     }
 
     long int port = argv[1].i;
-    if (port < 0 || port>7) {
-        fprintf(stderr, "Invalid port number: %ld\n", pin);
+    if (port < 0 || port>15) {
+        fprintf(stderr, "Invalid port number: %ld\n", port);
         return -1;
     }
 
@@ -53,6 +53,7 @@ static int8_t test_gpio_output(uint8_t argc, const Menu::arg *argv, bool use_cha
     AP_HAL::DigitalSource *ch1 = nullptr;
     AP_HAL::DigitalSource *ch2 = nullptr;
     AP_HAL::DigitalSource *ch3 = nullptr;
+    AP_HAL::DigitalSource *ch4 = nullptr;
     int port = parse_gpio_pin_number(argc, argv);
 
     if (port < 0) return -1;
@@ -64,10 +65,13 @@ static int8_t test_gpio_output(uint8_t argc, const Menu::arg *argv, bool use_cha
         ch2->mode(HAL_GPIO_OUTPUT);
         ch3 = hal.gpio->channel(9);
         ch3->mode(HAL_GPIO_OUTPUT);
+        ch4 = hal.gpio->channel(10);
+        ch4->mode(HAL_GPIO_OUTPUT);
     } else {
         hal.gpio->pinMode(7, HAL_GPIO_OUTPUT);
         hal.gpio->pinMode(8, HAL_GPIO_OUTPUT);
         hal.gpio->pinMode(9, HAL_GPIO_OUTPUT);
+        hal.gpio->pinMode(10, HAL_GPIO_OUTPUT);
     }
 
     hal.console->printf("Now I'll start toggling the signal on the port number %d ."
@@ -90,7 +94,7 @@ static int8_t test_gpio_output(uint8_t argc, const Menu::arg *argv, bool use_cha
         case 12: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
         case 13: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
         case 14: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
-        case 15: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+        case 15: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
 
 
     }
