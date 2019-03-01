@@ -412,6 +412,8 @@ void Copter::three_hz_loop()
 
     // update ch6 in flight tuning
     tuning();
+    init_flappyDrone();
+    read_flappyDrone();
 }
 
 // one_hz_loop - runs at 1Hz
@@ -456,8 +458,8 @@ void Copter::one_hz_loop()
 
     // init compass location for declination
     init_compass_location();
-    init_flappyDrone();
-    read_flappyDrone();
+    
+    
 }
 
 // called at 50hz

@@ -468,8 +468,8 @@ public:
 
     //FlappyDrone 
     AP_Int16                flappy_enable; // 0 = disable, 1 = one sensor, 2 = all enable
-    AP_Int16                watch_dist;
-    AP_Int16                alert_dist;
+    AP_Int32                watch_dist;
+    AP_Int32                alert_dist;
 
     // Note: keep initializers here in the same order as they are declared
     // above.

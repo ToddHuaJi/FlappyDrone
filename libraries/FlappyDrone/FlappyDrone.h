@@ -53,12 +53,12 @@ class FlappyDrone{
       
 public:
 
-    char* readout = new char[10];
+    unsigned char* readout = new unsigned char[10];
     uint64_t fd;
 
     FlappyDrone();
     void update();
-    uint8_t* getReading();
+    // uint8_t* getReading();
     /*flush is doing what flush does*/
     void flush();
     
