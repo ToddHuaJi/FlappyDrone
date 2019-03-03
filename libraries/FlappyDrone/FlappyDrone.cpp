@@ -24,6 +24,11 @@ FlappyDrone::FlappyDrone(){
 
 void FlappyDrone::update(){
     res = read(fd,readout,9);
+    uint16_t tempDist = (int)(readout[2]) + (int)(readout[3])*256;
+    if(tempDist<1200){
+        dist = tempDist;
+    }
+
     tcflush(fd,TCIOFLUSH);
 }
 

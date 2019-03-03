@@ -55,6 +55,8 @@ public:
 
     unsigned char* readout = new unsigned char[10];
     uint64_t fd;
+    uint16_t dist;  // calculated distance, range: [30,1200]
+    
 
     FlappyDrone();
     void update();
