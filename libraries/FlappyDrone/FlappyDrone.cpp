@@ -1,7 +1,7 @@
 #include "FlappyDrone.h"
 #include <ctype.h>
 #include <AP_HAL/AP_HAL.h>
-#include <AP_SerialManager/AP_SerialManager.h>
+
 
 
 
@@ -14,7 +14,9 @@ FlappyDrone::FlappyDrone(){
 		printf("Failed to open MODEMDEVICE \"/dev/ttyAMA0\"\n");
 		exit(-1); 
 	}
-
+    dist = 0;
+    orientation = 0;
+    readSuccess = false;
 	set_interface_attribs (fd, BAUDRATE, 0);  // set speed to 19200 bps, 8n1 (no parity)
 	set_blocking (fd, 0);                // set no blocking
 
@@ -23,13 +25,39 @@ FlappyDrone::FlappyDrone(){
 
 
 void FlappyDrone::update(){
+    readSuccess = false;
     res = read(fd,readout,9);
     uint16_t tempDist = (int)(readout[2]) + (int)(readout[3])*256;
     if(tempDist<1200){
         dist = tempDist;
+        readSuccess = true;
+    }
+    orientation++;
+    if(orientation >= 8){
+        orientation = 0;
     }
 
     tcflush(fd,TCIOFLUSH);
+}
+
+uint16_t FlappyDrone::max_distance_cm(){
+    return max_dist;
+}
+
+uint16_t FlappyDrone::min_distance_cm(){
+    return min_dist;
+}
+
+uint16_t FlappyDrone::distance_cm(){
+    return dist;
+}
+
+uint16_t FlappyDrone::get_orientation(){
+    return orientation;
+}
+
+bool FlappyDrone::has_new_data(){
+    return readSuccess;
 }
 
 void FlappyDrone::flush(){

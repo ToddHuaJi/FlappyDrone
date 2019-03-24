@@ -17,11 +17,7 @@
 
 #pragma once
 
-#include <AP_Common/AP_Common.h>
 #include <AP_HAL/AP_HAL.h>
-#include <AP_Param/AP_Param.h>
-#include <AP_Math/AP_Math.h>
-#include <AP_SerialManager/AP_SerialManager.h>
 #include <stdint.h>
 #include <termios.h>                                                         
 #include <stdio.h>
@@ -54,12 +50,23 @@ class FlappyDrone{
 public:
 
     unsigned char* readout = new unsigned char[10];
+    unsigned char** allSensorData [9][9];
+    uint16_t min_dist = 30;
+    uint16_t max_dist = 1200;
     uint64_t fd;
-    uint16_t dist;  // calculated distance, range: [30,1200]
+    uint16_t dist;  // calculated distance, range: [30,1200], current sensor reading
+    uint16_t orientation;
+    bool readSuccess;
     
 
     FlappyDrone();
     void update();
+    uint16_t max_distance_cm();
+    uint16_t min_distance_cm();
+    uint16_t distance_cm();
+    uint16_t get_orientation();
+    bool has_new_data();
+    
     // uint8_t* getReading();
     /*flush is doing what flush does*/
     void flush();
