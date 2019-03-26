@@ -8,33 +8,39 @@ void Copter::init_flappyDrone(void)
         flappy = new FlappyDrone();
         hal.gpio->pinMode(6, HAL_GPIO_OUTPUT);
     }
+    if(flappyMav==nullptr){
+        flappyMav = new GCS_MAVLINK_Copter();
+    }
 }
 
 void Copter::read_flappyDrone(void){
     flappy->update();
-    uint16_t low = (int)(flappy->readout[2]);
-    uint16_t high = (int)(flappy->readout[3]);
-    //gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %x cm", flappy->readout[2]);
-    //gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %x cm", flappy->readout[3]);
-    uint16_t dist = low + high*256;
-    //+converter(&flappy->readout[3])*256;
+    // uint16_t low = (int)(flappy->readout[2]);
+    // uint16_t high = (int)(flappy->readout[3]);
+    // //gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %x cm", flappy->readout[2]);
+    // //gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %x cm", flappy->readout[3]);
+    // uint16_t dist = low + high*256;
+    // //+converter(&flappy->readout[3])*256;
 
-    if(((uint32_t)(g.watch_dist)) > dist){
-        gcs().send_text(MAV_SEVERITY_CRITICAL, "Watch!!! The distance is within the watch range %u cm", dist);
+    // if(((uint32_t)(g.watch_dist)) > dist){
+    //     gcs().send_text(MAV_SEVERITY_CRITICAL, "Watch!!! The distance is within the watch range %u cm", dist);
         
-        hal.gpio->write(6,1);
-    }
+    //     hal.gpio->write(6,1);
+    // }
 
-    if(((uint32_t)g.alert_dist) > dist){
-        gcs().send_text(MAV_SEVERITY_CRITICAL, "Alert!!! The distance is within the alert range %u cm", dist);
-        }
-    else if(((uint32_t)g.watch_dist) < dist){
-        gcs().send_text(MAV_SEVERITY_CRITICAL, "You are good! %u cm", dist);
-        hal.gpio->write(6,0);
+    // if(((uint32_t)g.alert_dist) > dist){
+    //     gcs().send_text(MAV_SEVERITY_CRITICAL, "Alert!!! The distance is within the alert range %u cm", dist);
+    //     }
+    // else if(((uint32_t)g.watch_dist) < dist){
+    //     gcs().send_text(MAV_SEVERITY_CRITICAL, "You are good! %u cm", dist);
+    //     hal.gpio->write(6,0);
 
-    }
+    // }
 
-       gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
+        // gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
+        // gcs().send_text(MAV_SEVERITY_CRITICAL, "timestamp: %u", AP_HAL::millis() );
+        
+    flappyMav->send_distance_flappy(3);
 
 }
 

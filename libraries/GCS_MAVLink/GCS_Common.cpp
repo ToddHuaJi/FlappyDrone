@@ -282,6 +282,27 @@ void GCS_MAVLINK::send_distance_sensor(const AP_RangeFinder_Backend *sensor, con
         0,                                       // vertical FOV
         (const float *)nullptr);                 // quaternion of sensor orientation for MAV_SENSOR_ROTATION_CUSTOM
 }
+
+void GCS_MAVLINK::send_distance_flappy(const uint8_t instance) const
+{
+    // if (!sensor->has_data()) {
+    //     return;
+    // }
+
+    mavlink_msg_distance_sensor_send(
+        chan,
+        AP_HAL::millis(),                        // time since system boot TODO: take time of measurement
+        30,               // minimum distance the sensor can measure in centimeters
+        30,               // maximum distance the sensor can measure in centimeters
+        30,                   // current distance reading
+        0,  // type from MAV_DISTANCE_SENSOR enum
+        instance,                                // onboard ID of the sensor == instance
+        1,                   // direction the sensor faces from MAV_SENSOR_ORIENTATION enum
+        30,                                       // Measurement covariance in centimeters, 0 for unknown / invalid readings
+        1,                                       // horizontal FOV
+        1,                                       // vertical FOV
+        (const float *)nullptr);                 // quaternion of sensor orientation for MAV_SENSOR_ROTATION_CUSTOM
+}
 // send any and all distance_sensor messages.  This starts by sending
 // any distance sensors not used by a Proximity sensor, then sends the
 // proximity sensor ones.

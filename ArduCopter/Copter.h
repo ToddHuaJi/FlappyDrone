@@ -288,6 +288,7 @@ private:
     AP_SerialManager serial_manager;
 
     FlappyDrone* flappy;
+    GCS_MAVLINK_Copter* flappyMav;
 
 
     // GCS selection

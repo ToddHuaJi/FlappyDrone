@@ -190,6 +190,7 @@ public:
     // send_rangefinder sends only if a downward-facing instance is
     // found.  Rover overrides this!
     virtual void send_rangefinder() const;
+    void send_distance_flappy(const uint8_t instance) const;
     void send_proximity() const;
     void send_ahrs2();
     void send_ahrs3();
