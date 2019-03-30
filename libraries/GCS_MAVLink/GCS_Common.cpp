@@ -28,6 +28,7 @@
 #include "GCS.h"
 
 #include <stdio.h>
+#include <cstdlib>
 
 #if HAL_RCINPUT_WITH_AP_RADIO
 #include <AP_Radio/AP_Radio.h>
@@ -294,7 +295,7 @@ void GCS_MAVLINK::send_distance_flappy(const uint8_t instance) const
         AP_HAL::millis(),                        // time since system boot TODO: take time of measurement
         30,               // minimum distance the sensor can measure in centimeters
         30,               // maximum distance the sensor can measure in centimeters
-        30,                   // current distance reading
+        rand() % 100,                   // current distance reading
         0,  // type from MAV_DISTANCE_SENSOR enum
         instance,                                // onboard ID of the sensor == instance
         1,                   // direction the sensor faces from MAV_SENSOR_ORIENTATION enum
