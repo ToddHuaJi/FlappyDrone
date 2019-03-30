@@ -9,12 +9,19 @@ def my_method(self, name, msg):
     x = math.cos(math.radians(22.5))*msg.current_distance
     alertdist = 50
     print(msg.current_distance)
-    print(x)
-    if x < alertdist :
+    #print(x)
+    if x <= 20 :
         print("-----------")
         vehicle.mode = VehicleMode("BRAKE")
-        print("it's with the alert distance, control override!")
-        print("now it's in brake mode")
+        print("it's within the alert distance, control override!")
+        print("now it's in BRAKE mode")
+        print("-----------")
+    else:
+        print("-----------")
+        vehicle.mode = VehicleMode("GUIDED")
+        print("now it's BACK in GUIDED mode")
+        print("-----------")
+
 
 def arm_and_takeoff(aTargetAltitude):
     """
@@ -196,7 +203,7 @@ def get_bearing(aLocation1, aLocation2):
     bearing = 90.00 + math.atan2(-off_y, off_x) * 57.2957795
     if bearing < 0:
         bearing += 360.00
-    return bearing;
+    return bearing
 
 
 
@@ -285,117 +292,32 @@ def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
     currentLocation = vehicle.location.global_relative_frame
     targetLocation = get_location_metres(currentLocation, dNorth, dEast)
     targetDistance = get_distance_metres(currentLocation, targetLocation)
-    gotoFunction(targetLocation)
     
-    #print "DEBUG: targetLocation: %s" % targetLocation
-    #print "DEBUG: targetLocation: %s" % targetDistance
+    
+    remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
 
-    while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
+    while remainingDistance>targetDistance*0.01: #Stop action if we are no longer in guided mode.
         #print "DEBUG: mode: %s" % vehicle.mode.name
+        gotoFunction(targetLocation)
         remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
         print("Distance to target: ", remainingDistance)
-        if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
+        if remainingDistance<=targetDistance*0.05:
             print("Reached target")
-            break;
+            break
         time.sleep(2)
-
-
-
-"""
-Functions that move the vehicle by specifying the velocity components in each direction.
-The two functions use different MAVLink commands. The main difference is
-that depending on the frame used, the NED velocity can be relative to the vehicle
-orientation.
-
-The methods include:
-* send_ned_velocity - Sets velocity components using SET_POSITION_TARGET_LOCAL_NED command
-* send_global_velocity - Sets velocity components using SET_POSITION_TARGET_GLOBAL_INT command
-"""
-
-def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
-    """
-    Move vehicle in direction based on specified velocity vectors and
-    for the specified duration.
-
-    This uses the SET_POSITION_TARGET_LOCAL_NED command with a type mask enabling only 
-    velocity components 
-    (http://dev.ardupilot.com/wiki/copter-commands-in-guided-mode/#set_position_target_local_ned).
-    
-    Note that from AC3.3 the message should be re-sent every second (after about 3 seconds
-    with no message the velocity will drop back to zero). In AC3.2.1 and earlier the specified
-    velocity persists until it is canceled. The code below should work on either version 
-    (sending the message multiple times does not cause problems).
-    
-    See the above link for information on the type_mask (0=enable, 1=ignore). 
-    At time of writing, acceleration and yaw bits are ignored.
-    """
-    msg = vehicle.message_factory.set_position_target_local_ned_encode(
-        0,       # time_boot_ms (not used)
-        0, 0,    # target system, target component
-        mavutil.mavlink.MAV_FRAME_LOCAL_NED, # frame
-        0b0000111111000111, # type_mask (only speeds enabled)
-        0, 0, 0, # x, y, z positions (not used)
-        velocity_x, velocity_y, velocity_z, # x, y, z velocity in m/s
-        0, 0, 0, # x, y, z acceleration (not supported yet, ignored in GCS_Mavlink)
-        0, 0)    # yaw, yaw_rate (not supported yet, ignored in GCS_Mavlink) 
-
-    # send command to vehicle on 1 Hz cycle
-    for x in range(0,duration):
-        vehicle.send_mavlink(msg)
-        time.sleep(1)
-    
-    
-
-
-def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
-    """
-    Move vehicle in direction based on specified velocity vectors.
-
-    This uses the SET_POSITION_TARGET_GLOBAL_INT command with type mask enabling only 
-    velocity components 
-    (http://dev.ardupilot.com/wiki/copter-commands-in-guided-mode/#set_position_target_global_int).
-    
-    Note that from AC3.3 the message should be re-sent every second (after about 3 seconds
-    with no message the velocity will drop back to zero). In AC3.2.1 and earlier the specified
-    velocity persists until it is canceled. The code below should work on either version 
-    (sending the message multiple times does not cause problems).
-    
-    See the above link for information on the type_mask (0=enable, 1=ignore). 
-    At time of writing, acceleration and yaw bits are ignored.
-    """
-    msg = vehicle.message_factory.set_position_target_global_int_encode(
-        0,       # time_boot_ms (not used)
-        0, 0,    # target system, target component
-        mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT_INT, # frame
-        0b0000111111000111, # type_mask (only speeds enabled)
-        0, # lat_int - X Position in WGS84 frame in 1e7 * meters
-        0, # lon_int - Y Position in WGS84 frame in 1e7 * meters
-        0, # alt - Altitude in meters in AMSL altitude(not WGS84 if absolute or relative)
-        # altitude above terrain if GLOBAL_TERRAIN_ALT_INT
-        velocity_x, # X velocity in NED frame in m/s
-        velocity_y, # Y velocity in NED frame in m/s
-        velocity_z, # Z velocity in NED frame in m/s
-        0, 0, 0, # afx, afy, afz acceleration (not supported yet, ignored in GCS_Mavlink)
-        0, 0)    # yaw, yaw_rate (not supported yet, ignored in GCS_Mavlink) 
-
-    # send command to vehicle on 1 Hz cycle
-    for x in range(0,duration):
-        vehicle.send_mavlink(msg)
-        time.sleep(1)    
 
 print("TRIANGLE path using standard Vehicle.simple_goto()")
 
-print("Set groundspeed to 5m/s.")
-vehicle.groundspeed=10
+print("Set groundspeed to 15m/s.")
+vehicle.groundspeed=15
 
 print("Position North 80 West 50")
-goto(80, -50)
+goto(70, -40)
+
 vehicle.add_message_listener('DISTANCE_SENSOR',my_method)
-if vehicle.groundspeed ==0:
-    vehicle.mode = VehicleMode("GUIDED")
 
 print("Position North 0 East 100")
-goto(0, 100)
+goto(80, 50)
 
 print("Position North -80 West 50")
 goto(-80, -50)
