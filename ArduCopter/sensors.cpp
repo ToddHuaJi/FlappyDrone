@@ -14,6 +14,10 @@ void Copter::init_flappyDrone(void)
 }
 
 void Copter::read_flappyDrone(void){
+    uint16_t max_distance;
+    uint16_t min_distance; 
+    uint16_t current_distance; 
+    uint16_t orientation;
     flappy->update();
     // uint16_t low = (int)(flappy->readout[2]);
     // uint16_t high = (int)(flappy->readout[3]);
@@ -36,12 +40,17 @@ void Copter::read_flappyDrone(void){
     //     hal.gpio->write(6,0);
 
     // }
+//
+  //      // gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
+  //      // gcs().send_text(MAV_SEVERITY_CRITICAL, "timestamp: %u", AP_HAL::millis() );
+    if(flappy->has_new_data()) {
+        max_distance = flappy->max_distance_cm();
+        min_distance = flappy->min_distance_cm(); 
+        current_distance = flappy->distance_cm(); 
+        orientation = flappy->get_orientation();
 
-        // gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
-        // gcs().send_text(MAV_SEVERITY_CRITICAL, "timestamp: %u", AP_HAL::millis() );
-        
-    flappyMav->send_distance_flappy(3);
-
+        flappyMav->send_distance_flappy(3, min_distance, max_distance, current_distance, orientation);
+    }
 }
 
 // return barometric altitude in centimeters
