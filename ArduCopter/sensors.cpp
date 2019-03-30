@@ -11,7 +11,8 @@ void Copter::init_flappyDrone(void)
 }
 
 void Copter::read_flappyDrone(void){
-    flappy->update();
+
+    flappy->update(hal);
     uint16_t low = (int)(flappy->readout[2]);
     uint16_t high = (int)(flappy->readout[3]);
     //gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %x cm", flappy->readout[2]);
@@ -19,20 +20,20 @@ void Copter::read_flappyDrone(void){
     uint16_t dist = low + high*256;
     //+converter(&flappy->readout[3])*256;
 
-    if(((uint32_t)(g.watch_dist)) > dist){
-        gcs().send_text(MAV_SEVERITY_CRITICAL, "Watch!!! The distance is within the watch range %u cm", dist);
-        
-        hal.gpio->write(6,1);
-    }
-
-    if(((uint32_t)g.alert_dist) > dist){
-        gcs().send_text(MAV_SEVERITY_CRITICAL, "Alert!!! The distance is within the alert range %u cm", dist);
-        }
-    else if(((uint32_t)g.watch_dist) < dist){
-        gcs().send_text(MAV_SEVERITY_CRITICAL, "You are good! %u cm", dist);
-        hal.gpio->write(6,0);
-
-    }
+    // if(((uint32_t)(g.watch_dist)) > dist){
+    //     gcs().send_text(MAV_SEVERITY_CRITICAL, "Watch!!! The distance is within the watch range %u cm", dist);
+    //
+    //     hal.gpio->write(6,1);
+    // }
+    //
+    // if(((uint32_t)g.alert_dist) > dist){
+    //     gcs().send_text(MAV_SEVERITY_CRITICAL, "Alert!!! The distance is within the alert range %u cm", dist);
+    //     }
+    // else if(((uint32_t)g.watch_dist) < dist){
+    //     gcs().send_text(MAV_SEVERITY_CRITICAL, "You are good! %u cm", dist);
+    //     hal.gpio->write(6,0);
+    //
+    // }
 
        gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
 
