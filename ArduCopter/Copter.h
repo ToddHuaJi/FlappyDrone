@@ -288,6 +288,7 @@ private:
     AP_SerialManager serial_manager;
 
     FlappyDrone* flappy;
+    GCS_MAVLINK_Copter* flappyMav;
 
 
     // GCS selection
@@ -652,6 +653,7 @@ private:
     void update_super_simple_bearing(bool force_update);
     void read_AHRS(void);
     void update_altitude();
+    void flappy_loop();
 
     // Attitude.cpp
     float get_pilot_desired_yaw_rate(int16_t stick_angle);

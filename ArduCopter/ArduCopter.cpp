@@ -82,6 +82,9 @@
   and the maximum time they are expected to take (in microseconds)
  */
 const AP_Scheduler::Task Copter::scheduler_tasks[] = {
+
+    SCHED_TASK(flappy_loop,         15,    500),       
+
     SCHED_TASK(rc_loop,              100,    130),
     SCHED_TASK(throttle_loop,         50,     75),
     SCHED_TASK(update_GPS,            50,    200),
@@ -330,6 +333,9 @@ void Copter::fourhundred_hz_logging()
 // should be run at 10hz
 void Copter::ten_hz_logging_loop()
 {
+
+    // flappy_loop();
+
     // log attitude data if we're not already logging at the higher rate
     if (should_log(MASK_LOG_ATTITUDE_MED) && !should_log(MASK_LOG_ATTITUDE_FAST)) {
         Log_Write_Attitude();
@@ -412,13 +418,13 @@ void Copter::three_hz_loop()
 
     // update ch6 in flight tuning
     tuning();
-    init_flappyDrone();
-    read_flappyDrone();
 }
 
 // one_hz_loop - runs at 1Hz
 void Copter::one_hz_loop()
 {
+
+    // flappy_loop();
     if (should_log(MASK_LOG_ANY)) {
         Log_Write_Data(DATA_AP_STATE, ap.value);
     }
@@ -580,6 +586,12 @@ void Copter::update_altitude()
     if (should_log(MASK_LOG_CTUN)) {
         Log_Write_Control_Tuning();
     }
+}
+
+// 10 hz with 75 micros sec max time
+void Copter::flappy_loop(){
+    init_flappyDrone();
+    read_flappyDrone();
 }
 
 #if OSD_ENABLED == ENABLED

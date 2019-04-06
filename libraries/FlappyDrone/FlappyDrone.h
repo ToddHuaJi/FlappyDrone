@@ -52,9 +52,12 @@ public:
     unsigned char* readout = new unsigned char[10];
    // unsigned char** allSensorData = new unsigned char[9][10];
     unsigned char** allSensorData ;  // array of pointers, c points to first element
+    uint16_t* caculatedDistances;
+    int* distanceTimeStamp;
 
-
-    static int SwitchSensor(int port, const AP_HAL::HAL& hal);
+    int SwitchSensor( const AP_HAL::HAL& hal);
+    int sensorNumber = 0;
+    bool isInit = false;
     uint16_t min_dist = 30;
     uint16_t max_dist = 1200;
     uint64_t fd;
@@ -64,7 +67,7 @@ public:
 
 
     FlappyDrone();
-    void update(const AP_HAL:: HAL& hal);
+    void update();      // single update
     uint16_t max_distance_cm();
     uint16_t min_distance_cm();
     uint16_t distance_cm();

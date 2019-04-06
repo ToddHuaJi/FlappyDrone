@@ -6,37 +6,57 @@ void Copter::init_flappyDrone(void)
 {
     if(flappy==nullptr){
         flappy = new FlappyDrone();
+        flappy->isInit = true;
         hal.gpio->pinMode(6, HAL_GPIO_OUTPUT);
+        
+        hal.gpio->pinMode(7, HAL_GPIO_OUTPUT);
+        hal.gpio->pinMode(8, HAL_GPIO_OUTPUT);
+        hal.gpio->pinMode(9, HAL_GPIO_OUTPUT);
+        hal.gpio->pinMode(10, HAL_GPIO_OUTPUT);
+
+    }
+    if(flappyMav==nullptr){
+        flappyMav = new GCS_MAVLINK_Copter();
     }
 }
 
 void Copter::read_flappyDrone(void){
 
-    flappy->update(hal);
-    uint16_t low = (int)(flappy->readout[2]);
-    uint16_t high = (int)(flappy->readout[3]);
-    //gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %x cm", flappy->readout[2]);
-    //gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %x cm", flappy->readout[3]);
-    uint16_t dist = low + high*256;
-    //+converter(&flappy->readout[3])*256;
+    flappy->update();
+    // gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %u cm ---- %x", flappy->caculatedDistances[flappy->sensorNumber], flappy->sensorNumber);
+    flappyMav->send_distance_flappy(3, 30, 1200, flappy->caculatedDistances[flappy->sensorNumber], flappy->sensorNumber);
+    flappy->sensorNumber ++;
+    if(flappy->sensorNumber == 4){
+        flappy->sensorNumber = 0;
+    }
+    switch (flappy->sensorNumber) {
 
-    // if(((uint32_t)(g.watch_dist)) > dist){
-    //     gcs().send_text(MAV_SEVERITY_CRITICAL, "Watch!!! The distance is within the watch range %u cm", dist);
-    //
-    //     hal.gpio->write(6,1);
-    // }
-    //
-    // if(((uint32_t)g.alert_dist) > dist){
-    //     gcs().send_text(MAV_SEVERITY_CRITICAL, "Alert!!! The distance is within the alert range %u cm", dist);
-    //     }
-    // else if(((uint32_t)g.watch_dist) < dist){
-    //     gcs().send_text(MAV_SEVERITY_CRITICAL, "You are good! %u cm", dist);
-    //     hal.gpio->write(6,0);
-    //
-    // }
+        case 0: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 1: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 2: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 3: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+        case 4: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 5: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 6: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 7: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+        case 8: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 9: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 10: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 11: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+        case 12: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 13: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 14: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 15: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+    }
+    // flappy->sensorNumber++;
+    // flappy->SwitchSensor(hal);
+    
+    // gcs().send_text(MAV_SEVERITY_CRITICAL, "time %u", AP_HAL::millis());
 
-       gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
+    // gcs().send_text(MAV_SEVERITY_CRITICAL, "1 distance is %x cm", flappy->allSensorData[1][2]);
 
+    gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
+    
 }
 
 // return barometric altitude in centimeters
