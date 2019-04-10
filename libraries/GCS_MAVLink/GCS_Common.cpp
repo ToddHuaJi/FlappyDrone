@@ -28,6 +28,7 @@
 #include "GCS.h"
 
 #include <stdio.h>
+#include <cstdlib>
 
 #if HAL_RCINPUT_WITH_AP_RADIO
 #include <AP_Radio/AP_Radio.h>
@@ -291,6 +292,7 @@ void GCS_MAVLINK::send_distance_flappy(const uint8_t instance, const uint16_t mi
     mavlink_msg_distance_sensor_send(
         chan,
         AP_HAL::millis(),                        // time since system boot TODO: take time of measurement
+
 
         min_distance,               // minimum distance the sensor can measure in centimeters
         max_distance,               // maximum distance the sensor can measure in centimeters
