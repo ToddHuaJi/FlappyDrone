@@ -19,13 +19,13 @@
 
 #include <AP_HAL/AP_HAL.h>
 #include <stdint.h>
-#include <termios.h>                                                         
+#include <termios.h>
 #include <stdio.h>
-#include <stdlib.h>	
+#include <stdlib.h>
 #include <string.h>
-#include <unistd.h>                                                          
-#include <fcntl.h>                                                                                                               
-#include <sys/types.h> 
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
 #include <stdint.h>
 #include <fcntl.h>
 #include <sys/signal.h>
@@ -34,50 +34,57 @@
 #include <time.h>
 #include <stdbool.h>
 #include <stropts.h>
-#include <poll.h>	
-
+#include <poll.h>
+#include <AP_HAL/AP_HAL.h>
 #include <errno.h>
 
-
-#define BAUDRATE B115200 
+#define HAL_GPIO_OUTPUT 1
+#define BAUDRATE B115200
 #define MODEMDEVICE "/dev/ttyAMA0"
-
+//extern const AP_HAL::HAL& hal;
 /*
     AP_HAL is completely ignored
 */
 class FlappyDrone{
-      
+
 public:
 
     unsigned char* readout = new unsigned char[10];
-    unsigned char** allSensorData [9][9];
+   // unsigned char** allSensorData = new unsigned char[9][10];
+    unsigned char** allSensorData ;  // array of pointers, c points to first element
+    uint16_t* caculatedDistances;
+    int* distanceTimeStamp;
+
+    int SwitchSensor( const AP_HAL::HAL& hal);
+    int sensorNumber = 0;
+    bool isInit = false;
     uint16_t min_dist = 30;
     uint16_t max_dist = 1200;
     uint64_t fd;
     uint16_t dist;  // calculated distance, range: [30,1200], current sensor reading
     uint16_t orientation;
     bool readSuccess;
-    
+
 
     FlappyDrone();
-    void update();
+    void update();      // single update
     uint16_t max_distance_cm();
     uint16_t min_distance_cm();
     uint16_t distance_cm();
     uint16_t get_orientation();
     bool has_new_data();
-    
+
     // uint8_t* getReading();
     /*flush is doing what flush does*/
     void flush();
-    
-   
+
+
+
 private:
-    
+
     int set_interface_attribs (int fd, int speed, int parity);
     void set_blocking (int fd, int should_block);
 
-    int res;
-    
-};
 
+
+};
