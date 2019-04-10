@@ -5,39 +5,53 @@
 
 
 
+
 FlappyDrone::FlappyDrone(){
-    
+
     fd = open(MODEMDEVICE, O_RDWR | O_NOCTTY | O_NONBLOCK);
     if (fd == 0)
 	{
 		perror(MODEMDEVICE);
 		printf("Failed to open MODEMDEVICE \"/dev/ttyAMA0\"\n");
-		exit(-1); 
+		exit(-1);
 	}
     dist = 0;
     orientation = 0;
     readSuccess = false;
 	set_interface_attribs (fd, BAUDRATE, 0);  // set speed to 19200 bps, 8n1 (no parity)
 	set_blocking (fd, 0);                // set no blocking
-
+    allSensorData = new unsigned char*[9];
+    caculatedDistances = new uint16_t[8];
+    distanceTimeStamp = new int[8];
+    for(unsigned int i = 0; i < 9; ++i){
+        allSensorData[i] = new unsigned char[9]; // array of chars, c[i] points to 1st element
+    }
 }
 
 
 
-void FlappyDrone::update(){
-    readSuccess = false;
-    res = read(fd,readout,9);
-    uint16_t tempDist = (int)(readout[2]) + (int)(readout[3])*256;
-    if(tempDist<1200){
-        dist = tempDist;
-        readSuccess = true;
-    }
-    orientation++;
-    if(orientation >= 8){
-        orientation = 0;
-    }
+void FlappyDrone::update(){    
+        readSuccess = false;
+        uint16_t tempDist = 0;
+        ssize_t res = read(fd,allSensorData[sensorNumber],9);
+        for(int i = 0; i < 5; i++){
+            if(allSensorData[sensorNumber][i] == 0x59){
+                if(allSensorData[sensorNumber][i+1] == 0x59){
+                    tempDist = (int)(allSensorData[sensorNumber][i+2]) + (int)(allSensorData[sensorNumber][i+3])*256;
+                }
+            }
+        }
+        if(tempDist<1200){
+            caculatedDistances[sensorNumber] = tempDist;
+            distanceTimeStamp[sensorNumber] = AP_HAL::micros();
+        }
+        orientation++;
+        if(orientation >= 8){
+            orientation = 0;
+        }
 
-    tcflush(fd,TCIOFLUSH);
+        tcflush(fd,TCIOFLUSH);
+        
 }
 
 uint16_t FlappyDrone::max_distance_cm(){
@@ -99,7 +113,7 @@ int FlappyDrone::set_interface_attribs (int fd, int speed, int parity){
         {
                 return -1;
         }
-        return 0;    
+        return 0;
 }
 
 void FlappyDrone::set_blocking (int fd, int should_block){
@@ -119,6 +133,34 @@ void FlappyDrone::set_blocking (int fd, int should_block){
 
 }
 
+int FlappyDrone::SwitchSensor(const AP_HAL::HAL& hal) {
 
+
+    // sensorNumber = sensorNumber + 1;
+
+    // // if(sensorNumber < 0) return -1;
+    // if(sensorNumber = 8) {sensorNumber = 0;}
+
+    // switch (sensorNumber) {
+
+    //     case 0: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+    //     case 1: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+    //     case 2: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+    //     case 3: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+    //     case 4: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+    //     case 5: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+    //     case 6: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+    //     case 7: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+    //     case 8: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+    //     case 9: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+    //     case 10: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+    //     case 11: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+    //     case 12: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+    //     case 13: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+    //     case 14: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+    //     case 15: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+    // }
+    return 0;
+}
 
 
