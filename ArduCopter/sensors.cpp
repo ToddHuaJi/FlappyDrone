@@ -8,6 +8,7 @@ void Copter::init_flappyDrone(void)
         flappy = new FlappyDrone();
         flappy->isInit = true;
         hal.gpio->pinMode(6, HAL_GPIO_OUTPUT);
+
         
         hal.gpio->pinMode(7, HAL_GPIO_OUTPUT);
         hal.gpio->pinMode(8, HAL_GPIO_OUTPUT);
@@ -20,8 +21,8 @@ void Copter::init_flappyDrone(void)
     }
 }
 
-void Copter::read_flappyDrone(void){
 
+void Copter::read_flappyDrone(void){
     flappy->update();
     // gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %u cm ---- %x", flappy->caculatedDistances[flappy->sensorNumber], flappy->sensorNumber);
     flappyMav->send_distance_flappy(3, 30, 1200, flappy->caculatedDistances[flappy->sensorNumber], flappy->sensorNumber);

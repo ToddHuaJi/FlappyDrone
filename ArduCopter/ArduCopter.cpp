@@ -465,7 +465,6 @@ void Copter::one_hz_loop()
     // init compass location for declination
     init_compass_location();
 
-
 }
 
 // called at 50hz
