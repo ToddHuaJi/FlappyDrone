@@ -14,7 +14,7 @@ index = 0
 flag = 0
 indexflag = 0
 status_flag_enable = True
-statusflag = False
+statusflag = None
 #sensorbuffer = arr.array('I', [sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint])
 
 sensorbuffer = []
@@ -37,10 +37,11 @@ def axis(turtle, distance, tick):
 
 
 def checkmode():
-    statusflag = False
     for i in range(8):
         if sensorbuffer[i] <=alertdist:
+            print("set true")
             statusflag = True
+
 
 
 def my_method(self, name, msg):
@@ -54,6 +55,8 @@ def my_method(self, name, msg):
     global turtle
     global screen
     global previousmode
+    global status_flag_enable
+    global statusflag
     if flag ==0:
         #x axis
         screen = Screen()
@@ -96,16 +99,24 @@ def my_method(self, name, msg):
     #update dots in graph
     #global position0, position1, posiiton2, posiiton3, position4, position5, position6, position7
     global position0
+    
     checkmode()
+    
+    #statusflag = True
+    print (statusflag)
+    print ("///////")
+    print (status_flag_enable)
     if statusflag == True and status_flag_enable == True:
+        print( "trigger HHHHHH")
         vehicle.mode = VehicleMode("BRAKE")
-        if vehicle.airspeed<=0.25*1:
-            vehicle.mode = VehicleMode("ALTHOLD")
+        status_flag_enable = False
+        statusflag = False
+        if vehicle.groundspeed<=0.25*1:
+            vehicle.mode = VehicleMode("ALT_HOLD")
             status_flag_enable = False
             print("-----------")
             print("now it's BACK in Althold mode")
             print("-----------")
-
 
     if sensorbuffer[msg.orientation] <= watchdist:
         #msg.current_distance > alertdist and 
@@ -207,17 +218,9 @@ def my_method(self, name, msg):
             turtle.goto(-math.cos(math.radians(45))*msg.current_distance,math.sin(math.radians(45))*msg.current_distance)
             position0 = turtle.position()
             turtle.dot(10,"red")
-            turtle.penup()
-
-        print("-----------")
-        vehicle.mode = VehicleMode("BRAKE")
-        #previousmode = vehicle.mode.name
-        print("it's within the alert distance, control override!")
-        print("now it's in BRAKE mode")
-        print("-----------")        
-
+            turtle.penup()    
 
 vehicle.add_message_listener('DISTANCE_SENSOR',my_method)
-
+    
 while True:
-    i=0                                      
+    i=0                                  
