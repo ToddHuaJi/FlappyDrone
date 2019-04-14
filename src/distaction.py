@@ -110,7 +110,7 @@ def my_method(self, name, msg):
     if sensorbuffer[msg.orientation] <= watchdist:
         #msg.current_distance > alertdist and 
         #winsound.Beep(600, 1000)
-        print("It's sensor:",repr(index))
+        print("It's sensor:",repr(msg.orientation))
         turtle.penup()
         if msg.orientation == 0:
             #position0 = turtle.posiion()
