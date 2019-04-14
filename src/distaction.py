@@ -99,7 +99,7 @@ def my_method(self, name, msg):
     checkmode()
     if statusflag == True and status_flag_enable == True:
         vehicle.mode = VehicleMode("BRAKE")
-        if airspeed<=0.25*1:
+        if vehicle.airspeed<=0.25*1:
             vehicle.mode = VehicleMode("ALTHOLD")
             status_flag_enable = False
             print("-----------")
