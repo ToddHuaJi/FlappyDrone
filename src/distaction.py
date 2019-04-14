@@ -83,7 +83,8 @@ def my_method(self, name, msg):
 
     #global position0, position1, posiiton2, posiiton3, position4, position5, position6, position7
     global position0
-    if msg.current_distance > alertdist and msg.current_distance <= watchdist:
+    if msg.current_distance <= watchdist:
+        #msg.current_distance > alertdist and 
         #winsound.Beep(600, 1000)
         print("It's sensor: ", repr(index))
         turtle.penup()
@@ -184,14 +185,14 @@ def my_method(self, name, msg):
             turtle.penup()
 
         print("-----------")
-        vehicle.mode = VehicleMode("BRAKE")
-        previousmode = vehicle.mode.name
+        #vehicle.mode = VehicleMode("BRAKE")
+        #previousmode = vehicle.mode.name
         print("it's within the alert distance, control override!")
         print("now it's in BRAKE mode")
         print("-----------")
     else:
         print("-----------")
-        vehicle.mode = VehicleMode(previousmode)
+        #vehicle.mode = VehicleMode(previousmode)
         print("now it's BACK in GUIDED mode")
         print("-----------")
 
