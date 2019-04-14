@@ -287,8 +287,8 @@ private:
 
     AP_SerialManager serial_manager;
 
-    FlappyDrone* flappy;
-    GCS_MAVLINK_Copter* flappyMav;
+    FlappyDrone* flappy = nullptr;
+    GCS_MAVLINK_Copter* flappyMav = nullptr;
 
 
     // GCS selection
