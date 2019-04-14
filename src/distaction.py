@@ -4,9 +4,9 @@ from pymavlink import mavutil
 import time
 from turtle import Turtle, Screen
 import array as arr
-import winsound
+#import winsound
 
-vehicle = connect('127.0.0.1:14550', wait_ready=True)
+vehicle = connect('127.0.0.1:14551', wait_ready=True)
 watchdist = input("Set the WATCH distance: ")
 alertdist = input("Set the ALERT distance: ")
 index = 0
@@ -84,7 +84,7 @@ def my_method(self, name, msg):
     #global position0, position1, posiiton2, posiiton3, position4, position5, position6, position7
     global position0
     if msg.current_distance > alertdist and msg.current_distance <= watchdist:
-        winsound.Beep(600, 1000)
+        #winsound.Beep(600, 1000)
         print("It's sensor: ", repr(index))
         turtle.penup()
         if index ==0:
@@ -190,7 +190,6 @@ def my_method(self, name, msg):
         print("now it's in BRAKE mode")
         print("-----------")
     else:
-        if :
         print("-----------")
         vehicle.mode = VehicleMode(previousmode)
         print("now it's BACK in GUIDED mode")
