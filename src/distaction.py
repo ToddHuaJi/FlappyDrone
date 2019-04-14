@@ -197,5 +197,8 @@ def my_method(self, name, msg):
 
     index+=1
 
+
+vehicle.add_message_listener('DISTANCE_SENSOR',my_method)
+
 while True:
     i=0                                      
