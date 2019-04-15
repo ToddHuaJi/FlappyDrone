@@ -27,7 +27,7 @@ void Copter::read_flappyDrone(void){
     // gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %u cm ---- %x", flappy->caculatedDistances[flappy->sensorNumber], flappy->sensorNumber);
     flappyMav->send_distance_flappy(3, 30, 1200, flappy->caculatedDistances[flappy->sensorNumber], flappy->sensorNumber);
     flappy->sensorNumber ++;
-    if(flappy->sensorNumber == 7){
+    if(flappy->sensorNumber == 8){
         flappy->sensorNumber = 0;
     }
     switch (flappy->sensorNumber) {
