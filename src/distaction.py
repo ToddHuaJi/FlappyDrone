@@ -4,17 +4,20 @@ from pymavlink import mavutil
 import time
 from turtle import Turtle, Screen
 import array as arr
+import os
 import sys
+import pygame
+
 #import winsound
 
 vehicle = connect('127.0.0.1:14551', wait_ready=True)
 watchdist = input("Set the WATCH distance: ")
 alertdist = input("Set the ALERT distance: ")
-index = 0
 flag = 0
 indexflag = 0
 status_flag_enable = True
-statusflag = None
+statusflag = False
+
 #sensorbuffer = arr.array('I', [sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint])
 
 sensorbuffer = []
@@ -24,6 +27,15 @@ for i in range(8):
 position0, position1, posiiton2, posiiton3, position4, position5, position6, position7 = 0, 0, 0, 0, 0, 0, 0, 0
 previousmode = ''
 
+def beep():
+    print ("\a")
+
+def checkmode():
+    global statusflag
+    statusflag = False
+    for i in range(8):
+        if sensorbuffer[i] <= alertdist:
+            statusflag = True
 
 # initialize all the axis and screen
 def axis(turtle, distance, tick):
@@ -36,27 +48,21 @@ def axis(turtle, distance, tick):
         turtle.backward(tick)
 
 
-def checkmode():
-    for i in range(8):
-        if sensorbuffer[i] <=alertdist:
-            print("set true")
-            statusflag = True
-
-
-
 def my_method(self, name, msg):
     #x = math.cos(math.radians(22.5))*msg.current_distance
     #alert = alertdist
+
     print(msg.current_distance)
+    global sensorbuffer
     sensorbuffer[msg.orientation]= msg.current_distance
     #print(x)
     global flag
-    global indexflag
+    global indexflag 
     global turtle
     global screen
-    global previousmode
     global status_flag_enable
-    global statusflag
+    global statusflag 
+   
     if flag ==0:
         #x axis
         screen = Screen()
@@ -100,17 +106,17 @@ def my_method(self, name, msg):
     #global position0, position1, posiiton2, posiiton3, position4, position5, position6, position7
     global position0
     
-    checkmode()
     
+    checkmode()
     #statusflag = True
-    print (statusflag)
-    print ("///////")
-    print (status_flag_enable)
+
+    #print (statusflag)
+    #print ("///////")
+    #print (status_flag_enable)
     if statusflag == True and status_flag_enable == True:
-        print( "trigger HHHHHH")
+        #print( "trigger HHHHHH")
         vehicle.mode = VehicleMode("BRAKE")
         status_flag_enable = False
-        statusflag = False
         if vehicle.groundspeed<=0.25*1:
             vehicle.mode = VehicleMode("ALT_HOLD")
             status_flag_enable = False
@@ -118,14 +124,15 @@ def my_method(self, name, msg):
             print("now it's BACK in Althold mode")
             print("-----------")
 
+
     if sensorbuffer[msg.orientation] <= watchdist:
-        #msg.current_distance > alertdist and 
-        #winsound.Beep(600, 1000)
+        if sensorbuffer[msg.orientation] <= alertdist:
+            beep()
+
         print("It's sensor:",repr(msg.orientation))
         turtle.penup()
         if msg.orientation == 0:
             #position0 = turtle.posiion()
-
             if indexflag == 0:
                 indexflag =1
             else:
@@ -221,6 +228,8 @@ def my_method(self, name, msg):
             turtle.penup()    
 
 vehicle.add_message_listener('DISTANCE_SENSOR',my_method)
+
     
 while True:
-    i=0                                  
+    i=0        
+                          
