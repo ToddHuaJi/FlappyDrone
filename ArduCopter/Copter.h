@@ -92,6 +92,7 @@
 #include <AP_Button/AP_Button.h>
 #include <AP_Arming/AP_Arming.h>
 #include <AP_VisualOdom/AP_VisualOdom.h>
+#include <FlappyDrone/FlappyDrone.h>
 
 // Configuration
 #include "defines.h"
@@ -237,6 +238,13 @@ private:
 
     // GCS selection
     AP_SerialManager serial_manager;
+
+    FlappyDrone* flappy = nullptr;
+    GCS_MAVLINK_Copter* flappyMav = nullptr ;
+
+
+
+
     static const uint8_t num_gcs = MAVLINK_COMM_NUM_BUFFERS;
 
     GCS_MAVLINK_Copter gcs_chan[MAVLINK_COMM_NUM_BUFFERS];
@@ -634,6 +642,11 @@ private:
     static const AP_Scheduler::Task scheduler_tasks[];
     static const AP_Param::Info var_info[];
     static const struct LogStructure log_structure[];
+
+    void init_flappyDrone();
+    void read_flappyDrone();
+    void flappy_loop();
+
 
     void compass_accumulate(void);
     void compass_cal_update(void);

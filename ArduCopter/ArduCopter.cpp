@@ -82,6 +82,9 @@
   and the maximum time they are expected to take (in microseconds)
  */
 const AP_Scheduler::Task Copter::scheduler_tasks[] = {
+    
+    SCHED_TASK(flappy_loop,         15,    500),       
+
     SCHED_TASK(rc_loop,              100,    130),
     SCHED_TASK(throttle_loop,         50,     75),
     SCHED_TASK(update_GPS,            50,    200),
@@ -643,5 +646,12 @@ void Copter::update_altitude()
         Log_Write_Control_Tuning();
     }
 }
+
+// 10 hz with 75 micros sec max time
+void Copter::flappy_loop(){
+    init_flappyDrone();
+    read_flappyDrone();
+}
+
 
 AP_HAL_MAIN_CALLBACKS(&copter);

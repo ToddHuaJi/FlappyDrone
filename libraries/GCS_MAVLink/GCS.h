@@ -137,6 +137,11 @@ public:
     uint16_t mission_item_reached_index = AP_MISSION_CMD_INDEX_NONE;
 
     // common send functions
+    void send_distance_flappy(const uint8_t instance, const uint16_t min_distance, const uint16_t max_distance, const uint16_t current_distance, const uint16_t orientation) const;
+
+
+
+
     void send_meminfo(void);
     void send_power_status(void);
     void send_battery_status(const AP_BattMonitor &battery, const uint8_t instance) const;

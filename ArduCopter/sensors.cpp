@@ -1,5 +1,64 @@
 #include "Copter.h"
 
+
+void Copter::init_flappyDrone(void)
+{
+    if(flappy==nullptr){
+        flappy = new FlappyDrone();
+        flappy->isInit = true;
+        hal.gpio->pinMode(6, HAL_GPIO_OUTPUT);
+
+        
+        hal.gpio->pinMode(7, HAL_GPIO_OUTPUT);
+        hal.gpio->pinMode(8, HAL_GPIO_OUTPUT);
+        hal.gpio->pinMode(9, HAL_GPIO_OUTPUT);
+        hal.gpio->pinMode(10, HAL_GPIO_OUTPUT);
+
+    }
+    if(flappyMav==nullptr){
+        flappyMav = new GCS_MAVLINK_Copter();
+    }
+}
+
+
+void Copter::read_flappyDrone(void){
+    flappy->update();
+    // gcs().send_text(MAV_SEVERITY_CRITICAL, "distance is %u cm ---- %x", flappy->caculatedDistances[flappy->sensorNumber], flappy->sensorNumber);
+    flappyMav->send_distance_flappy(3, 30, 1200, flappy->caculatedDistances[flappy->sensorNumber], flappy->sensorNumber);
+    flappy->sensorNumber ++;
+    if(flappy->sensorNumber == 8){
+        flappy->sensorNumber = 0;
+    }
+    switch (flappy->sensorNumber) {
+
+        case 0: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 1: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 2: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 3: hal.gpio->write(7,0); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+        case 4: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 5: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 6: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 7: hal.gpio->write(7,0); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+        case 8: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 9: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 10: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 11: hal.gpio->write(7,1); hal.gpio->write(8,0); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+        case 12: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,0);break;
+        case 13: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,0); hal.gpio->write(10,1);break;
+        case 14: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,0);break;
+        case 15: hal.gpio->write(7,1); hal.gpio->write(8,1); hal.gpio->write(9,1); hal.gpio->write(10,1);break;
+    }
+    // flappy->sensorNumber++;
+    // flappy->SwitchSensor(hal);
+    
+    // gcs().send_text(MAV_SEVERITY_CRITICAL, "time %u", AP_HAL::millis());
+
+    // gcs().send_text(MAV_SEVERITY_CRITICAL, "1 distance is %x cm", flappy->allSensorData[1][2]);
+
+    // gcs().send_text(MAV_SEVERITY_CRITICAL, "--------------");
+    
+}
+
 void Copter::init_barometer(bool full_calibration)
 {
     gcs_send_text(MAV_SEVERITY_INFO, "Calibrating barometer");

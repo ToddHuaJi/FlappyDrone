@@ -46,6 +46,27 @@ GCS_MAVLINK::GCS_MAVLINK()
     AP_Param::setup_object_defaults(this, var_info);
 }
 
+void GCS_MAVLINK::send_distance_flappy(const uint8_t instance, const uint16_t min_distance, const uint16_t max_distance, const uint16_t current_distance, const uint16_t orientation) const
+{
+
+
+    mavlink_msg_distance_sensor_send(
+        chan,
+        AP_HAL::millis(),                        // time since system boot TODO: take time of measurement
+
+
+        min_distance,               // minimum distance the sensor can measure in centimeters
+        max_distance,               // maximum distance the sensor can measure in centimeters
+        current_distance,                   // current distance reading
+        0,  // type from MAV_DISTANCE_SENSOR enum
+        instance,                                // onboard ID of the sensor == instance
+        orientation,                   // direction the sensor faces from MAV_SENSOR_ORIENTATION enum
+        0                                     // Measurement covariance in centimeters, 0 for unknown / invalid readings
+        );                 // quaternion of sensor orientation for MAV_SENSOR_ROTATION_CUSTOM
+}
+
+
+
 void
 GCS_MAVLINK::init(AP_HAL::UARTDriver *port, mavlink_channel_t mav_chan)
 {
