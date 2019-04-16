@@ -10,7 +10,7 @@ import pygame
 
 #import winsound
 
-vehicle = connect('127.0.0.1:14551', wait_ready=True)
+vehicle = connect('127.0.0.1:14550', wait_ready=True)
 watchdist = input("Set the WATCH distance: ")
 alertdist = input("Set the ALERT distance: ")
 flag = 0
@@ -52,10 +52,13 @@ def my_method(self, name, msg):
     #x = math.cos(math.radians(22.5))*msg.current_distance
     #alert = alertdist
 
-    print(msg.current_distance)
+    
     global sensorbuffer
     sensorbuffer[msg.orientation]= msg.current_distance
     #print(x)
+    print(sensorbuffer[msg.orientation])
+    print("It's sensor:",repr(msg.orientation))
+
     global flag
     global indexflag 
     global turtle
@@ -129,7 +132,7 @@ def my_method(self, name, msg):
         if sensorbuffer[msg.orientation] <= alertdist:
             beep()
 
-        print("It's sensor:",repr(msg.orientation))
+
         turtle.penup()
         if msg.orientation == 0:
             #position0 = turtle.posiion()
@@ -226,6 +229,9 @@ def my_method(self, name, msg):
             position0 = turtle.position()
             turtle.dot(10,"red")
             turtle.penup()    
+    for i in range(8):
+        sensorbuffer.append(sys.maxint)
+
 
 vehicle.add_message_listener('DISTANCE_SENSOR',my_method)
 
