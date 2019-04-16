@@ -6,7 +6,6 @@ from turtle import Turtle, Screen
 import array as arr
 import os
 import sys
-import pygame
 
 #import winsound
 
@@ -52,6 +51,8 @@ def my_method(self, name, msg):
     #x = math.cos(math.radians(22.5))*msg.current_distance
     #alert = alertdist
 
+    print(" the difference is : ")
+    print (msg.time_boot_ms)
     
     global sensorbuffer
     sensorbuffer[msg.orientation]= msg.current_distance
