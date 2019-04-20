@@ -16,15 +16,11 @@ flag = 0
 indexflag = 0
 status_flag_enable = True
 statusflag = False
-
-#sensorbuffer = arr.array('I', [sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint,sys.maxint])
-
 sensorbuffer = []
 for i in range(8):
     sensorbuffer.append(sys.maxint)
 
-position0, position1, posiiton2, posiiton3, position4, position5, position6, position7 = 0, 0, 0, 0, 0, 0, 0, 0
-previousmode = ''
+position0, position1, posiiton2, posiiton3, position4, position5, position6, position7 = (0,0), (0,0), (0,0), (0,0), (0,0), (0,0), (0,0), (0,0)
 
 def beep():
     print ("\a")
@@ -48,12 +44,6 @@ def axis(turtle, distance, tick):
 
 
 def my_method(self, name, msg):
-    #x = math.cos(math.radians(22.5))*msg.current_distance
-    #alert = alertdist
-
-    print(" the difference is : ")
-    print (msg.time_boot_ms)
-    
     global sensorbuffer
     sensorbuffer[msg.orientation]= msg.current_distance
     #print(x)
@@ -107,18 +97,10 @@ def my_method(self, name, msg):
 
         
     #update dots in graph
-    #global position0, position1, posiiton2, posiiton3, position4, position5, position6, position7
-    global position0
-    
-    
+    global position0, position1, position2, position3, position4, position5, position6, position7
+      
     checkmode()
-    #statusflag = True
-
-    #print (statusflag)
-    #print ("///////")
-    #print (status_flag_enable)
     if statusflag == True and status_flag_enable == True:
-        #print( "trigger HHHHHH")
         vehicle.mode = VehicleMode("BRAKE")
         status_flag_enable = False
         if vehicle.groundspeed<=0.25*1:
@@ -133,10 +115,8 @@ def my_method(self, name, msg):
         if sensorbuffer[msg.orientation] <= alertdist:
             beep()
 
-
         turtle.penup()
         if msg.orientation == 0:
-            #position0 = turtle.posiion()
             if indexflag == 0:
                 indexflag =1
             else:
@@ -152,10 +132,10 @@ def my_method(self, name, msg):
             if indexflag == 0:
                 indexflag =1
             else:
-                turtle.goto(position0)
+                turtle.goto(position1)
                 turtle.dot(10, "black")
             turtle.goto(math.cos(math.radians(45))*msg.current_distance,math.sin(math.radians(45))*msg.current_distance)
-            position0 = turtle.position()
+            position1 = turtle.position()
             turtle.dot(10,"red")
             turtle.penup()
 
@@ -164,10 +144,10 @@ def my_method(self, name, msg):
             if indexflag == 0:
                 indexflag = 1
             else:
-                turtle.goto(position0)
+                turtle.goto(position2)
                 turtle.dot(10, "black")
             turtle.goto(msg.current_distance,0)
-            position0 = turtle.position()
+            position2 = turtle.position()
             turtle.dot(10,"red")
             turtle.penup()
 
@@ -176,10 +156,10 @@ def my_method(self, name, msg):
             if indexflag == 0:
                 indexflag = 1
             else:
-                turtle.goto(position0)
+                turtle.goto(position3)
                 turtle.dot(10, "black")
             turtle.goto(math.cos(math.radians(45))*msg.current_distance,-math.sin(math.radians(45))*msg.current_distance)
-            position0 = turtle.position()
+            position3 = turtle.position()
             turtle.dot(10,"red")
             turtle.penup()
 
@@ -188,10 +168,10 @@ def my_method(self, name, msg):
             if indexflag == 0:
                 indexflag = 1
             else:
-                turtle.goto(position0)
+                turtle.goto(position4)
                 turtle.dot(10, "black")
             turtle.goto(0, -msg.current_distance)
-            position0 = turtle.position()
+            position4 = turtle.position()
             turtle.dot(10,"red")
             turtle.penup()
 
@@ -200,10 +180,10 @@ def my_method(self, name, msg):
             if indexflag == 0:
                 indexflag = 1
             else:
-                turtle.goto(position0)
+                turtle.goto(position5)
                 turtle.dot(10, "black")
             turtle.goto(-math.cos(math.radians(45))*msg.current_distance, -math.sin(math.radians(45))*msg.current_distance)
-            position0 = turtle.position()
+            position5 = turtle.position()
             turtle.dot(10,"red")
             turtle.penup()
 
@@ -212,10 +192,10 @@ def my_method(self, name, msg):
             if indexflag == 0:
                 indexflag = 1
             else:
-                turtle.goto(position0)
+                turtle.goto(position6)
                 turtle.dot(10, "black")  
             turtle.goto(-msg.current_distance,0)
-            position0 = turtle.position()
+            position6 = turtle.position()
             turtle.dot(10,"red")
             turtle.penup()
 
@@ -224,10 +204,10 @@ def my_method(self, name, msg):
             if indexflag == 0:
                 indexflag = 1
             else:
-                turtle.goto(position0)
+                turtle.goto(position7)
                 turtle.dot(10, "black")
             turtle.goto(-math.cos(math.radians(45))*msg.current_distance,math.sin(math.radians(45))*msg.current_distance)
-            position0 = turtle.position()
+            position7 = turtle.position()
             turtle.dot(10,"red")
             turtle.penup()    
     for i in range(8):
